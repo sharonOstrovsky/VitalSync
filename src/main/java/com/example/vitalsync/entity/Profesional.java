@@ -1,13 +1,17 @@
 package com.example.vitalsync.entity;
 
 import com.example.vitalsync.utility.CoberturaMedica;
-import jakarta.persistence.ManyToMany;
-import lombok.Data;
-
+import jakarta.persistence.*;
+import lombok.*;
 import java.util.List;
 
 @Data
+@Entity
+@Table(name = "Profesional")
 public class Profesional extends Persona{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id_profesional;
     private String especialidad;
     private boolean estado;
     private String matricula;
@@ -18,6 +22,8 @@ public class Profesional extends Persona{
     private String honorario;
     @ManyToMany
     private List<Dia> diasTrabajo;
+    @OneToOne
+    protected Usuario usuario;
 
 
 }
