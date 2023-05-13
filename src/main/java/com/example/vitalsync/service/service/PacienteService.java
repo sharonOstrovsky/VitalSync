@@ -1,4 +1,4 @@
-package com.example.vitalsync.services;
+package com.example.vitalsync.service.service;
 
 import com.example.vitalsync.entity.Paciente;
 
