@@ -1,8 +1,9 @@
 package com.example.vitalsync.entity;
 
-import com.example.vitalsync.utility.CoberturaMedica;
-import jakarta.persistence.*;
+import com.example.vitalsync.utils.CoberturaMedica;
 import lombok.Data;
+
+import javax.persistence.*;
 import java.util.List;
 
 @Data

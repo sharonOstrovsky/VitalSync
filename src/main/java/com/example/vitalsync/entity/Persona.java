@@ -1,7 +1,11 @@
 package com.example.vitalsync.entity;
 
-import jakarta.persistence.*;
+
 import lombok.*;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Data
 public class Persona {
