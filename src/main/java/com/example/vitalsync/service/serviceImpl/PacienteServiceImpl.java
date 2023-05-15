@@ -14,27 +14,27 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public List<Paciente> listarPacientes() {
+    public List<Paciente> listarPacientes() throws Exception {
         return pacienteRepository.findAll();
     }
 
     @Override
-    public Paciente guardarPaciente(Paciente pacienteDto) {
+    public Paciente guardarPaciente(Paciente pacienteDto) throws Exception {
         return pacienteRepository.save(pacienteDto);
     }
 
     @Override
-    public Paciente obtenerPacientePorId(Long id) {
+    public Paciente obtenerPacientePorId(Long id) throws Exception {
         return pacienteRepository.findById(id).get();
     }
 
     @Override
-    public Paciente actualizarPersonal(Paciente paciente) {
+    public Paciente actualizarPersonal(Paciente paciente) throws Exception {
         return pacienteRepository.save(paciente);
     }
 
     @Override
-    public void eliminarPaciente(Long id) {
+    public void eliminarPaciente(Long id) throws Exception {
         pacienteRepository.deleteById(id);
     }
 }
