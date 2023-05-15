@@ -29,5 +29,4 @@ public class Profesional extends Persona{
     @OneToOne
     protected Usuario usuario;
 
-
 }

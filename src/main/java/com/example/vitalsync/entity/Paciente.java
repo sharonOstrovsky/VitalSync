@@ -20,5 +20,6 @@ public class Paciente extends Persona {
     private CoberturaMedica coberturaMedica;
     @OneToOne
     protected Usuario usuario;
+    // ? private
 
 }
