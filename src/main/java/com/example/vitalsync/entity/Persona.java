@@ -1,15 +1,13 @@
 package com.example.vitalsync.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Entity
-@Table(name = "Persona")
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+import lombok.*;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Data
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,8 +16,6 @@ public class Persona {
     protected String apellido;
     protected String mail;
     protected String telefono;
-    @OneToOne
-    protected Usuario usuario;
 
 
 }
