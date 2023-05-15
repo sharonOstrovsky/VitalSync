@@ -1,4 +1,4 @@
-package com.example.vitalsync.repositories;
+package com.example.vitalsync.repository;
 
 import com.example.vitalsync.entity.Profesional;
 import org.springframework.data.jpa.repository.JpaRepository;

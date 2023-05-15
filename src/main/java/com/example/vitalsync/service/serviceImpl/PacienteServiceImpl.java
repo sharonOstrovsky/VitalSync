@@ -1,23 +1,17 @@
-package com.example.vitalsync.services;
+package com.example.vitalsync.service.serviceImpl;
 
 import com.example.vitalsync.entity.Paciente;
-import com.example.vitalsync.repositories.PacienteRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.example.vitalsync.repository.PacienteRepository;
+import com.example.vitalsync.service.service.PacienteService;
 
 import java.util.List;
 
-@Service
-@AllArgsConstructor
-public class PacienteServiceImp implements PacienteService {
+public class PacienteServiceImpl implements PacienteService {
     private final PacienteRepository pacienteRepository;
 
-    /*
-    public PacienteServiceImp(PacienteRepository pacienteRepository) {
+    public PacienteServiceImpl(PacienteRepository pacienteRepository) {
         this.pacienteRepository = pacienteRepository;
     }
-
-     */
 
     @Override
     public List<Paciente> listarPacientes() {

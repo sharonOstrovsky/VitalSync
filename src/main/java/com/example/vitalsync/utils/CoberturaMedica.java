@@ -1,4 +1,4 @@
-package com.example.vitalsync.utility;
+package com.example.vitalsync.utils;
 
 public enum CoberturaMedica {
 

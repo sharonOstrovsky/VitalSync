@@ -1,16 +1,18 @@
-package com.example.vitalsync.services;
+package com.example.vitalsync.service.serviceImpl;
 
 import com.example.vitalsync.entity.Profesional;
-import com.example.vitalsync.repositories.ProfesionalRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.example.vitalsync.repository.ProfesionalRepository;
+import com.example.vitalsync.service.service.ProfesionalService;
+
 
 import java.util.List;
 
-@Service
-@AllArgsConstructor
 public class ProfesionalServiceImp implements ProfesionalService {
     private final ProfesionalRepository profesionalRepository;
+
+    public ProfesionalServiceImp(ProfesionalRepository profesionalRepository) {
+        this.profesionalRepository = profesionalRepository;
+    }
 
 
     @Override
