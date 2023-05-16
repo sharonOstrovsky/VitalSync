@@ -1,8 +1,6 @@
 package com.example.vitalsync.controller;
 
-import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.entity.Usuario;
-import com.example.vitalsync.service.service.PacienteService;
 import com.example.vitalsync.service.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
