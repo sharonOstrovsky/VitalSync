@@ -37,4 +37,12 @@ public class ProfesionalController {
 
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/listar")
+    public ResponseEntity<List<Profesional>> listarProfesionales() throws Exception{
+        List<Profesional> result = profesionalService.listarProfesionales();
+        return  ResponseEntity.ok(result);
+    }
+
+
 }

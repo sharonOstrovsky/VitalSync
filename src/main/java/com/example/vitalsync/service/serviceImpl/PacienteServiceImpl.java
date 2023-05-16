@@ -3,15 +3,15 @@ package com.example.vitalsync.service.serviceImpl;
 import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.repository.PacienteRepository;
 import com.example.vitalsync.service.service.PacienteService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@AllArgsConstructor
 public class PacienteServiceImpl implements PacienteService {
     private final PacienteRepository pacienteRepository;
-
-    public PacienteServiceImpl(PacienteRepository pacienteRepository) {
-        this.pacienteRepository = pacienteRepository;
-    }
 
     @Override
     public List<Paciente> listarPacientes() throws Exception {
