@@ -10,9 +10,6 @@ import java.util.List;
 @Entity
 @Table(name = "Profesional")
 public class Profesional extends Persona{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id_profesional;
     private String especialidad;
     private boolean estado;
     private String matricula;
