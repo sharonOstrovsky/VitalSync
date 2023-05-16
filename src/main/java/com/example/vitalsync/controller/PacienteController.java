@@ -14,7 +14,10 @@ import java.util.Optional;
 @RequestMapping("/vitalsync/paciente")
 public class PacienteController {
 
+
     private final PacienteService pacienteService;
+
+
 
     @GetMapping(("/{id}"))
     //TODO public ResponseEntity<ProfesionalResponseDTO>
