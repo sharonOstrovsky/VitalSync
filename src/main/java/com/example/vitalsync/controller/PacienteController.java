@@ -12,6 +12,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/vitalsync/paciente")
+@CrossOrigin("*")
 public class PacienteController {
 
 

@@ -5,17 +5,19 @@ import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.utils.CoberturaMedica;
 import lombok.Data;
 
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
 import java.util.List;
 
 @Data
 public class PacienteResponseDTO {
 
-    protected String nombre;
-    protected String apellido;
-    protected String telefono;
+    private String nombre;
+    private String apellido;
+    private String mail;
+    private String telefono;
     private int edad;
     private String foto;
+    private List<Turno> turnos;
     private CoberturaMedica coberturaMedica;
+    private Usuario usuario;
 }

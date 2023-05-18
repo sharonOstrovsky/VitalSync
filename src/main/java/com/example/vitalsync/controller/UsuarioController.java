@@ -1,5 +1,7 @@
 package com.example.vitalsync.controller;
 
+import com.example.vitalsync.dto.request.UsuarioRequestDTO;
+import com.example.vitalsync.dto.response.UsuarioResponseDTO;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.service.service.UsuarioService;
 import lombok.AllArgsConstructor;
@@ -11,16 +13,19 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/vitalsync/usuario")
+@CrossOrigin("*")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
     @PostMapping("/create")
     //TODO public ResponseEntity<ProfesionalResponseDTO>
-    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) throws Exception {
-        Usuario result = usuarioService.guardarUsuario(usuario);
+    public ResponseEntity<UsuarioResponseDTO> create(@RequestBody UsuarioRequestDTO usuarioRequestDto) throws Exception {
+        UsuarioResponseDTO result = usuarioService.guardarUsuario(usuarioRequestDto);
 
         return ResponseEntity.ok(result);
     }
+
+
 
 
     @GetMapping("/listar")
