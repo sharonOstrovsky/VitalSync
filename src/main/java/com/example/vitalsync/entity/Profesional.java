@@ -6,7 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "Profesional")
 public class Profesional extends Persona{
@@ -23,7 +24,22 @@ public class Profesional extends Persona{
     private String honorario;
     @ManyToMany
     private List<Dia> diasTrabajo;
-    @OneToOne
+    @OneToOne //(cascade =CascadeType.ALL)
     protected Usuario usuario;
 
+    public Profesional() {
+    }
+
+    public Profesional(String especialidad, boolean estado, String matricula, boolean telemedicina, boolean presencial, List<CoberturaMedica> coberturaMedicaList, String ubicacion, String honorario, List<Dia> diasTrabajo, Usuario usuario) {
+        this.especialidad = especialidad;
+        this.estado = estado;
+        this.matricula = matricula;
+        this.telemedicina = telemedicina;
+        this.presencial = presencial;
+        this.coberturaMedicaList = coberturaMedicaList;
+        this.ubicacion = ubicacion;
+        this.honorario = honorario;
+        this.diasTrabajo = diasTrabajo;
+        this.usuario = usuario;
+    }
 }

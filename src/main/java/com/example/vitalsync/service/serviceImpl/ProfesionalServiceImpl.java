@@ -1,8 +1,10 @@
 package com.example.vitalsync.service.serviceImpl;
 
 import com.example.vitalsync.entity.Profesional;
+import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.ProfesionalRepository;
 import com.example.vitalsync.service.service.ProfesionalService;
+import com.example.vitalsync.service.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,7 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ProfesionalServiceImpl implements ProfesionalService {
 
-    private final ProfesionalRepository profesionalRepository;
+    private ProfesionalRepository profesionalRepository;
+    private UsuarioService usuarioService;
     @Override
     public List<Profesional> listarProfesionales() throws Exception {
         return profesionalRepository.findAll();
@@ -20,6 +23,9 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     @Override
     public Profesional guardarProfesional(Profesional profesionalReqDto) throws Exception {
         //TODO Convertir el ProfesionalReqDto a Profesional
+        Usuario usuario = usuarioService.guardarUsuario(new Usuario(null,profesionalReqDto.getUsuario().getUsuario(),
+                profesionalReqDto.getUsuario().getClave(),profesionalReqDto.getUsuario().getRol()));
+        profesionalReqDto.setUsuario(usuario);
         return profesionalRepository.save(profesionalReqDto);
     }
 

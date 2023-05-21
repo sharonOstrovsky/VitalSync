@@ -10,5 +10,4 @@ public interface ProfesionalService {
     Profesional actualizarProfesional(Profesional profesional)throws Exception;
     void eliminarProfesional(Long id) throws Exception;
     List<Profesional> obtenerProfesionalesPorEspecialidad (String especialidad) throws Exception;
-
 }
