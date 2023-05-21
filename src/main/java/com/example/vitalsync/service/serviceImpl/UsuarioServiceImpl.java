@@ -4,6 +4,7 @@ import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.UsuarioRepository;
 import com.example.vitalsync.service.service.UsuarioService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
 
-    private final UsuarioRepository usuarioRepository;
-
+    private UsuarioRepository usuarioRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Usuario> listarUsuarios() throws Exception {
@@ -22,6 +23,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario guardarUsuario(Usuario usuarioDto) throws Exception {
-        return usuarioRepository.save(usuarioDto);
+        Usuario usuario = new Usuario(
+                usuarioDto.getId(),
+                usuarioDto.getUsuario(),
+                this.passwordEncoder.encode(usuarioDto.getClave()),
+                usuarioDto.getRol()
+        );
+       return usuarioRepository.save(usuario);
     }
+
 }
