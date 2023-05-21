@@ -1,5 +1,6 @@
 package com.example.vitalsync.entity;
 
+import com.example.vitalsync.utils.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,6 @@ public class Usuario {
     private Long id;
     private String usuario;
     private String clave;
-    //private Rol rol;
+    @Enumerated (EnumType.STRING)
+    private Rol rol;
 }
