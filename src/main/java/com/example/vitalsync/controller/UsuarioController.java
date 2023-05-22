@@ -1,5 +1,6 @@
 package com.example.vitalsync.controller;
 
+import com.example.vitalsync.dto.request.UsuarioLoginRequestDTO;
 import com.example.vitalsync.entity.LoginMessage;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.service.service.UsuarioService;
@@ -33,7 +34,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Usuario usuarioDTO){
+    public ResponseEntity<?> loginUser(@RequestBody UsuarioLoginRequestDTO usuarioDTO){
         LoginMessage l = usuarioService.loginUsuario(usuarioDTO);
         return ResponseEntity.ok(l);
     }

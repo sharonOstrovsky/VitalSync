@@ -1,5 +1,6 @@
 package com.example.vitalsync.service.serviceImpl;
 
+import com.example.vitalsync.dto.request.UsuarioLoginRequestDTO;
 import com.example.vitalsync.entity.LoginMessage;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.UsuarioRepository;
@@ -35,15 +36,15 @@ public class UsuarioServiceImpl implements UsuarioService {
        return usuarioRepository.save(usuario);
     }
     @Override
-    public LoginMessage loginUsuario(Usuario usuarioDTO) {
+    public LoginMessage loginUsuario(UsuarioLoginRequestDTO usuarioRequestDTO) {
         String msg = "";
-        Usuario u = usuarioRepository.findByEmail(usuarioDTO.getEmail());
+        Usuario u = usuarioRepository.findByEmail(usuarioRequestDTO.getEmail());
         if (u != null) {
-            String password = usuarioDTO.getClave();
+            String password = usuarioRequestDTO.getClave();
             String encodedPassword = u.getClave();
             Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
             if (isPwdRight) {
-                Optional<Usuario> employee = usuarioRepository.findOneByEmailAndPassword(usuarioDTO.getEmail(), encodedPassword);
+                Optional<Usuario> employee = usuarioRepository.findOneByEmailAndPassword(usuarioRequestDTO.getEmail(), encodedPassword);
                 if (employee.isPresent()) {
                     return new LoginMessage("Login Success", true);
                 } else {
