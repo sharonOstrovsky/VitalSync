@@ -20,6 +20,7 @@ public class Usuario {
     private Long id;
     private String usuario;
     private String clave;
+    private String email;
     @Enumerated (EnumType.STRING)
     private Rol rol;
 }

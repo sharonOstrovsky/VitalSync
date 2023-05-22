@@ -10,10 +10,25 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private UsuarioService usuarioService;
 
+    public WebSecurity(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    public WebSecurity() {
+    }
+
+    public WebSecurity(boolean disableDefaults) {
+        super(disableDefaults);
+    }
+
+    public WebSecurity(boolean disableDefaults, UsuarioService usuarioService) {
+        super(disableDefaults);
+        this.usuarioService = usuarioService;
+    }
 //    @Bean
 //    public DaoAuthenticationProvider authenticationProvider() {
 //        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
@@ -36,6 +51,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/vitalsync/usuario/create").permitAll()
                 .antMatchers("/vitalsync/profesional/create").permitAll()
                 .antMatchers(HttpMethod.POST, "/vitalsync/profesional/create").permitAll()
+                .antMatchers("/vitalsync/usuario/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/vitalsync/usuario/login").permitAll()
+                .antMatchers("/vitalsync/profesional/*").permitAll()
+                .antMatchers("/vitalsync/paciente/*").permitAll()
+//                .antMatchers(HttpMethod.GET, "/vitalsync/profesional/listar").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin();

@@ -8,12 +8,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
 @RestController
+@AllArgsConstructor
 @RequestMapping("/vitalsync/profesional")
 public class ProfesionalController {
 
-    private final ProfesionalService profesionalService;
+    private ProfesionalService profesionalService;
+
+//    public ProfesionalController(ProfesionalService profesionalService) {
+//        this.profesionalService = profesionalService;
+//    }
+//
+//    public ProfesionalController() {
+//    }
 
     @GetMapping(("/{id}"))
     //TODO public ResponseEntity<ProfesionalResponseDTO>

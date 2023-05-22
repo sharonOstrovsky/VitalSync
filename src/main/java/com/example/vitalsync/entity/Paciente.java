@@ -14,6 +14,7 @@ public class Paciente extends Persona {
     private String foto;
     @OneToMany
     private List<Turno> turnos;
+    @Enumerated (EnumType.STRING)
     private CoberturaMedica coberturaMedica;
     @OneToOne
     protected Usuario usuario;

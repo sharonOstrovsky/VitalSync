@@ -1,5 +1,6 @@
 package com.example.vitalsync.controller;
 
+import com.example.vitalsync.dto.request.PacienteRequestDTO;
 import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.service.service.PacienteService;
 import lombok.AllArgsConstructor;
@@ -17,8 +18,6 @@ public class PacienteController {
 
     private final PacienteService pacienteService;
 
-
-
     @GetMapping(("/{id}"))
     //TODO public ResponseEntity<ProfesionalResponseDTO>
     public ResponseEntity<Paciente> findById(@PathVariable Long id) throws Exception {
@@ -29,7 +28,7 @@ public class PacienteController {
 
     @PostMapping("/create")
     //TODO public ResponseEntity<ProfesionalResponseDTO>
-    public ResponseEntity<Paciente> create(@RequestBody Paciente paciente) throws Exception {
+    public ResponseEntity<Paciente> create(@RequestBody PacienteRequestDTO paciente) throws Exception {
         Paciente result = pacienteService.guardarPaciente(paciente);
 
         return ResponseEntity.ok(result);

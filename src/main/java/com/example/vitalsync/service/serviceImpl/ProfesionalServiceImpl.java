@@ -12,6 +12,13 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ProfesionalServiceImpl implements ProfesionalService {
+//    public ProfesionalServiceImpl() {
+//    }
+//
+//    public ProfesionalServiceImpl(ProfesionalRepository profesionalRepository, UsuarioService usuarioService) {
+//        this.profesionalRepository = profesionalRepository;
+//        this.usuarioService = usuarioService;
+//    }
 
     private ProfesionalRepository profesionalRepository;
     private UsuarioService usuarioService;
@@ -24,7 +31,7 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     public Profesional guardarProfesional(Profesional profesionalReqDto) throws Exception {
         //TODO Convertir el ProfesionalReqDto a Profesional
         Usuario usuario = usuarioService.guardarUsuario(new Usuario(null,profesionalReqDto.getUsuario().getUsuario(),
-                profesionalReqDto.getUsuario().getClave(),profesionalReqDto.getUsuario().getRol()));
+                profesionalReqDto.getUsuario().getClave(),profesionalReqDto.getUsuario().getEmail(),profesionalReqDto.getUsuario().getRol()));
         profesionalReqDto.setUsuario(usuario);
         return profesionalRepository.save(profesionalReqDto);
     }
