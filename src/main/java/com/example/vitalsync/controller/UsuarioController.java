@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/vitalsync/usuario")
 @AllArgsConstructor
+@CrossOrigin
 public class UsuarioController {
     private UsuarioService usuarioService;
 

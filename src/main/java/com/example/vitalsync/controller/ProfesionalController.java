@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 @RequestMapping("/vitalsync/profesional")
 public class ProfesionalController {
 
