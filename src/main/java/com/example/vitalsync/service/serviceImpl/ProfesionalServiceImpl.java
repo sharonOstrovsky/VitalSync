@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +47,7 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         profesional.setNombre(profesionalReqDto.getNombre());
         profesional.setApellido(profesionalReqDto.getApellido());
         profesional.setUsuario(usuario);
+        profesional.setEstado(true);
         profesional.setEspecialidad(profesionalReqDto.getEspecialidad());
         profesionalRepository.save(profesional);
         return modelMapper.map(profesional, ProfesionalResponseDTO.class);
@@ -79,7 +81,10 @@ public class ProfesionalServiceImpl implements ProfesionalService {
 
     @Override
     public void eliminarProfesional(Long id) throws Exception {
-        profesionalRepository.deleteById(id);
+        Profesional profesional = profesionalRepository.findById(id)
+                .orElseThrow(() -> new Exception("No se encontró ningún profesional con el ID especificado."));
+        profesional.setEstado(false);
+        profesionalRepository.save(profesional);
     }
 
     @Override

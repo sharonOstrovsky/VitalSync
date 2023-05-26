@@ -33,20 +33,21 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/vitalsync/usuario/create").permitAll()
-                .antMatchers(HttpMethod.POST, "/vitalsync/usuario/create").permitAll()
-                .antMatchers("/vitalsync/profesional/create").permitAll()
-                .antMatchers(HttpMethod.POST, "/vitalsync/profesional/create").permitAll()
-                .antMatchers("/vitalsync/usuario/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/vitalsync/usuario/login").permitAll()
-                .antMatchers("/vitalsync/profesional/*").permitAll()
-                .antMatchers("/vitalsync/paciente/*").permitAll()
-//                .antMatchers(HttpMethod.GET, "/vitalsync/profesional/listar").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin();
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/vitalsync/usuario/create").permitAll()
+//                .antMatchers(HttpMethod.POST, "/vitalsync/usuario/create").permitAll()
+//                .antMatchers("/vitalsync/profesional/create").permitAll()
+//                .antMatchers(HttpMethod.POST, "/vitalsync/profesional/create").permitAll()
+//                .antMatchers("/vitalsync/usuario/login").permitAll()
+//                .antMatchers(HttpMethod.POST, "/vitalsync/usuario/login").permitAll()
+//                .antMatchers("/vitalsync/profesional/*").permitAll()
+//                .antMatchers("/vitalsync/paciente/*").permitAll()
+//
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin();
+        http.authorizeRequests().antMatchers("swagger-ui/index.html#").permitAll();
     }
 }

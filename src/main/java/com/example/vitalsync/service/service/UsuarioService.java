@@ -7,11 +7,7 @@ import com.example.vitalsync.entity.Usuario;
 import java.util.List;
 
 public interface UsuarioService {
-
     List<Usuario> listarUsuarios() throws Exception;
-
-    public LoginMessage loginUsuario(UsuarioLoginRequestDTO usuarioDTO);
-
     Usuario guardarUsuario(UsuarioLoginRequestDTO usuarioDto) throws Exception;
 
 }
