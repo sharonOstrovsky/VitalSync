@@ -6,6 +6,7 @@ import com.example.vitalsync.dto.response.ProfesionalResponseDTO;
 import com.example.vitalsync.entity.Profesional;
 import com.example.vitalsync.service.service.ProfesionalService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -35,6 +36,16 @@ public class ProfesionalController {
         return ProfesionalOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping("eliminar/{id}")
+    public ResponseEntity<String> eliminarProfesional(@PathVariable Long id) {
+        try {
+            profesionalService.eliminarProfesional(id);
+            return ResponseEntity.ok("Profesional eliminado exitosamente.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
     @PostMapping("/create")
     //TODO public ResponseEntity<ProfesionalResponseDTO>
     public ResponseEntity<ProfesionalResponseDTO> create(@RequestBody ProfesionalRequestDTO profesional) throws Exception {
@@ -54,6 +65,5 @@ public class ProfesionalController {
         List<Profesional> result = profesionalService.listarProfesionales();
         return  ResponseEntity.ok(result);
     }
-
 
 }
