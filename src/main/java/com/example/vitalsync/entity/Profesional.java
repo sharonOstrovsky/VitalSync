@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
 @Table(name = "Profesional")
 public class Profesional extends Persona{
     private String especialidad;
@@ -30,16 +31,4 @@ public class Profesional extends Persona{
     public Profesional() {
     }
 
-    public Profesional(String especialidad, boolean estado, String matricula, boolean telemedicina, boolean presencial, List<CoberturaMedica> coberturaMedicaList, String ubicacion, String honorario, List<Dia> diasTrabajo, Usuario usuario) {
-        this.especialidad = especialidad;
-        this.estado = estado;
-        this.matricula = matricula;
-        this.telemedicina = telemedicina;
-        this.presencial = presencial;
-        this.coberturaMedicaList = coberturaMedicaList;
-        this.ubicacion = ubicacion;
-        this.honorario = honorario;
-        this.diasTrabajo = diasTrabajo;
-        this.usuario = usuario;
-    }
 }

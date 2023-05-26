@@ -6,58 +6,52 @@ import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.UsuarioRepository;
 import com.example.vitalsync.service.service.UsuarioService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-@AllArgsConstructor
-@Service
 
-public class UsuarioServiceImpl implements UsuarioService {
+@Service
+@AllArgsConstructor
+public class UsuarioServiceImpl implements UsuarioService,UserDetailsService {
 
     private UsuarioRepository usuarioRepository;
-    private PasswordEncoder passwordEncoder;
 
-    @Override
     public List<Usuario> listarUsuarios() throws Exception {
         return usuarioRepository.findAll();
     }
 
     @Override
-    public Usuario guardarUsuario(Usuario usuarioDto) throws Exception {
-        Usuario usuario = new Usuario(
-                usuarioDto.getId(),
-                usuarioDto.getUsuario(),
-                this.passwordEncoder.encode(usuarioDto.getClave()),
-                usuarioDto.getEmail(),
-                usuarioDto.getRol()
-        );
-       return usuarioRepository.save(usuario);
+    public LoginMessage loginUsuario(UsuarioLoginRequestDTO usuarioDTO) {
+        return null;
     }
     @Override
-    public LoginMessage loginUsuario(UsuarioLoginRequestDTO usuarioRequestDTO) {
-        String msg = "";
-        Usuario u = usuarioRepository.findByEmail(usuarioRequestDTO.getEmail());
-        if (u != null) {
-            String password = usuarioRequestDTO.getClave();
-            String encodedPassword = u.getClave();
-            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-            if (isPwdRight) {
-                Optional<Usuario> employee = usuarioRepository.findOneByEmailAndPassword(usuarioRequestDTO.getEmail(), encodedPassword);
-                if (employee.isPresent()) {
-                    return new LoginMessage("Login Success", true);
-                } else {
-                    return new LoginMessage("Login Failed", false);
-                }
-            } else {
+    public Usuario guardarUsuario(UsuarioLoginRequestDTO usuarioDto) throws Exception {
+        Usuario usuario = new Usuario();
+        usuario.setEmail(usuarioDto.getEmail());
+        usuario.setClave(usuarioDto.getClave());
+        System.out.println("ENTRO");
+        return usuarioRepository.save(usuario);
+    }
 
-                return new LoginMessage("password Not Match", false);
-            }
-        }else {
-            return new LoginMessage("Email not exits", false);
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        if (usuario == null) {
+            throw new UsernameNotFoundException("Usuario no encontrado");
         }
 
+        List<GrantedAuthority> authorities = Collections.singletonList(
+                new SimpleGrantedAuthority(usuario.getRol().name())
+        );
 
+        return new User(usuario.getEmail(), usuario.getClave(), authorities);
     }
+
 }

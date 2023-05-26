@@ -1,46 +1,35 @@
 package com.example.vitalsync.security;
 
-import com.example.vitalsync.service.service.UsuarioService;
+import com.example.vitalsync.config.SecurityConfig;
+import com.example.vitalsync.service.serviceImpl.UsuarioServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
 @EnableWebSecurity
-
+@AllArgsConstructor
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-    private UsuarioService usuarioService;
 
-    public WebSecurity(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
+    private UsuarioServiceImpl usuarioService;
+    private SecurityConfig securityConfig;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(usuarioService).passwordEncoder(securityConfig.passwordEncoder());
     }
 
-    public WebSecurity() {
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
-
-    public WebSecurity(boolean disableDefaults) {
-        super(disableDefaults);
-    }
-
-    public WebSecurity(boolean disableDefaults, UsuarioService usuarioService) {
-        super(disableDefaults);
-        this.usuarioService = usuarioService;
-    }
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-//        auth.setUserDetailsService(usuarioService);
-//        auth.setPasswordEncoder(passwordEncoder());
-//        return auth;
-//    }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(usuarioService).passwordEncoder(passwordEncoder());
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -60,6 +49,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin();
     }
-
 }
-

@@ -1,5 +1,8 @@
 package com.example.vitalsync.controller;
 
+import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
+import com.example.vitalsync.dto.response.ProfesionalPorEspecialidadResponseDTO;
+import com.example.vitalsync.dto.response.ProfesionalResponseDTO;
 import com.example.vitalsync.entity.Profesional;
 import com.example.vitalsync.service.service.ProfesionalService;
 import lombok.AllArgsConstructor;
@@ -34,15 +37,14 @@ public class ProfesionalController {
 
     @PostMapping("/create")
     //TODO public ResponseEntity<ProfesionalResponseDTO>
-    public ResponseEntity<Profesional> create(@RequestBody Profesional profesional) throws Exception {
-        Profesional result = profesionalService.guardarProfesional(profesional);
-
+    public ResponseEntity<ProfesionalResponseDTO> create(@RequestBody ProfesionalRequestDTO profesional) throws Exception {
+        ProfesionalResponseDTO result = profesionalService.guardarProfesional(profesional);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/especialidad")
-    public ResponseEntity<List<Profesional>> encontrarPorProfesional(@RequestParam(value = "especialidad", required = false) String especialidad) throws Exception {
-        List<Profesional> result = profesionalService.obtenerProfesionalesPorEspecialidad(especialidad);
+    public ResponseEntity<List<ProfesionalPorEspecialidadResponseDTO>> encontrarPorProfesional(@RequestParam(value = "especialidad", required = false) String especialidad) throws Exception {
+        List<ProfesionalPorEspecialidadResponseDTO> result = profesionalService.obtenerProfesionalesPorEspecialidad(especialidad);
 
         return ResponseEntity.ok(result);
     }

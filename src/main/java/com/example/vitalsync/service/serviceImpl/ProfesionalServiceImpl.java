@@ -1,41 +1,72 @@
 package com.example.vitalsync.service.serviceImpl;
 
+import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
+import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
+import com.example.vitalsync.dto.response.PacienteResponseDTO;
+import com.example.vitalsync.dto.response.ProfesionalPorEspecialidadResponseDTO;
+import com.example.vitalsync.dto.response.ProfesionalResponseDTO;
+import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.entity.Profesional;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.ProfesionalRepository;
+import com.example.vitalsync.repository.UsuarioRepository;
 import com.example.vitalsync.service.service.ProfesionalService;
 import com.example.vitalsync.service.service.UsuarioService;
+import com.example.vitalsync.utils.Rol;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class ProfesionalServiceImpl implements ProfesionalService {
-//    public ProfesionalServiceImpl() {
-//    }
-//
-//    public ProfesionalServiceImpl(ProfesionalRepository profesionalRepository, UsuarioService usuarioService) {
-//        this.profesionalRepository = profesionalRepository;
-//        this.usuarioService = usuarioService;
-//    }
 
     private ProfesionalRepository profesionalRepository;
-    private UsuarioService usuarioService;
+    private UsuarioServiceImpl usuarioService;
+    private UsuarioRepository usuarioRepository;
+
+    private final ModelMapper modelMapper = new ModelMapper();
+
     @Override
     public List<Profesional> listarProfesionales() throws Exception {
         return profesionalRepository.findAll();
     }
 
     @Override
-    public Profesional guardarProfesional(Profesional profesionalReqDto) throws Exception {
-        //TODO Convertir el ProfesionalReqDto a Profesional
-        Usuario usuario = usuarioService.guardarUsuario(new Usuario(null,profesionalReqDto.getUsuario().getUsuario(),
-                profesionalReqDto.getUsuario().getClave(),profesionalReqDto.getUsuario().getEmail(),profesionalReqDto.getUsuario().getRol()));
-        profesionalReqDto.setUsuario(usuario);
-        return profesionalRepository.save(profesionalReqDto);
+    public ProfesionalResponseDTO guardarProfesional(ProfesionalRequestDTO profesionalReqDto) throws Exception {
+        Usuario usuario = modelMapper.map(profesionalReqDto.getUsuario(),Usuario.class);
+        usuarioRepository.save(usuario);
+        usuario.setRol(Rol.PROFESIONAL);
+        Profesional profesional = new Profesional();
+        profesional.setNombre(profesionalReqDto.getNombre());
+        profesional.setApellido(profesionalReqDto.getApellido());
+        profesional.setUsuario(usuario);
+        profesional.setEspecialidad(profesionalReqDto.getEspecialidad());
+        profesionalRepository.save(profesional);
+        return modelMapper.map(profesional, ProfesionalResponseDTO.class);
     }
 
+//    @Override
+//    public PacienteResponseDTO guardarPaciente(PacienteRequestDTO pacienteDto) throws Exception {
+////        usuarioService.guardarUsuario(pacienteDto.getUsuario());
+//        Usuario usuario = modelMapper.map(pacienteDto.getUsuario(), Usuario.class);
+//        usuarioRepository.save(usuario); //TODO Cambiar a service
+////        usuarioService.guardarUsuario(usuario);
+//        usuario.setRol(Rol.PACIENTE);
+//        System.out.println(usuario);
+//        Paciente paciente = new Paciente();
+//        paciente.setNombre(pacienteDto.getNombre());
+//        paciente.setApellido(pacienteDto.getApellido());
+//        paciente.setUsuario(usuario);
+//        System.out.println(paciente);
+//        pacienteRepository.save(paciente);
+//        return modelMapper.map(paciente, PacienteResponseDTO.class);
+//    }
     @Override
     public Profesional obtenerProfesionalPorId(Long id) throws Exception {
         return profesionalRepository.findById(id).get();
@@ -52,7 +83,12 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     }
 
     @Override
-    public List<Profesional> obtenerProfesionalesPorEspecialidad(String especialidad) throws Exception {
-        return profesionalRepository.buscarPorEspecialidad(especialidad);
+    public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesPorEspecialidad(String especialidad) throws Exception {
+        List<Profesional> profesional = profesionalRepository.buscarPorEspecialidad(especialidad);
+        //TODO Hacerlo con model mapper
+        return profesional.stream()
+                .map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido()))
+                .collect(Collectors.toList());
     }
+
 }
