@@ -21,13 +21,6 @@ public class ProfesionalController {
 
     private ProfesionalService profesionalService;
 
-//    public ProfesionalController(ProfesionalService profesionalService) {
-//        this.profesionalService = profesionalService;
-//    }
-//
-//    public ProfesionalController() {
-//    }
-
     @GetMapping(("/{id}"))
     //TODO public ResponseEntity<ProfesionalResponseDTO>
     public ResponseEntity<Profesional> findById(@PathVariable Long id) throws Exception {
@@ -36,16 +29,24 @@ public class ProfesionalController {
         return ProfesionalOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("eliminar/{id}")
-    public ResponseEntity<String> eliminarProfesional(@PathVariable Long id) {
+    @PutMapping("modificarEstado/{id}")
+    public ResponseEntity<String> modificarEstadoProfesional(@PathVariable Long id) {
         try {
-            profesionalService.eliminarProfesional(id);
-            return ResponseEntity.ok("Profesional eliminado exitosamente.");
+            profesionalService.actualizarEstadoProfesional(id);
+            return ResponseEntity.ok("Estado de profesional cambiado exitosamente.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
+    @DeleteMapping("eliminar/{id}")
+    public ResponseEntity<String> eliminarProfesional(@PathVariable("id") Long id) {
+        try {
+            profesionalService.eliminarProfesional(id);
+            return ResponseEntity.ok("Profesional eliminado exitosamente.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró ningún profesional con el ID especificado.");
+        }
+    }
     @PostMapping("/create")
     //TODO public ResponseEntity<ProfesionalResponseDTO>
     public ResponseEntity<ProfesionalResponseDTO> create(@RequestBody ProfesionalRequestDTO profesional) throws Exception {

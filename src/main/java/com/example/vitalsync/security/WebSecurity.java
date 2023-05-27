@@ -106,7 +106,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                    return;
 //                }
 //            }
-:
             response.sendRedirect("/vitalsync/usuario/pag");
         }
     }

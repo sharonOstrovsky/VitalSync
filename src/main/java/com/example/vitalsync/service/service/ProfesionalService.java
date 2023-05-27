@@ -11,7 +11,8 @@ public interface ProfesionalService {
     public ProfesionalResponseDTO guardarProfesional(ProfesionalRequestDTO profesionalReqDto) throws Exception;
     Profesional obtenerProfesionalPorId(Long id) throws Exception;
     Profesional actualizarProfesional(Profesional profesional)throws Exception;
-    void eliminarProfesional(Long id) throws Exception;
+    public void actualizarEstadoProfesional(Long id) throws Exception;
     public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesPorEspecialidad(String especialidad) throws Exception;
 
+    public void eliminarProfesional(Long id) throws Exception;
 }

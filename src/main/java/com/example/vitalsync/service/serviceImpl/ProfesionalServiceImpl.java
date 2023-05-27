@@ -41,24 +41,6 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         return profesionalRepository.findAll();
     }
 
-//    public PacienteResponseDTO guardarPaciente(PacienteRequestDTO pacienteDto) throws Exception {
-//        Usuario usuario = modelMapper.map(pacienteDto.getUsuario(), Usuario.class);
-//        usuario.setClave(passwordEncoder.encode(pacienteDto.getUsuario().getClave()));
-//        UsuarioLoginRequestDTO usuarioDto = new UsuarioLoginRequestDTO();
-//        usuarioDto.setEmail(usuario.getEmail());
-//        usuarioDto.setClave(usuario.getClave());
-//        Usuario usuarioGuardado= usuarioService.guardarUsuario(usuarioDto);
-//        usuarioGuardado.setRol(Rol.PACIENTE);
-//
-//        Paciente paciente = new Paciente();
-//        paciente.setNombre(pacienteDto.getNombre());
-//        paciente.setApellido(pacienteDto.getApellido());
-//        paciente.setUsuario(usuarioGuardado);
-//        pacienteRepository.save(paciente);
-//
-//        return modelMapper.map(paciente, PacienteResponseDTO.class);
-//    }
-
     @Override
     public ProfesionalResponseDTO guardarProfesional(ProfesionalRequestDTO profesionalReqDto) throws Exception {
         Usuario usuario = modelMapper.map(profesionalReqDto.getUsuario(),Usuario.class);
@@ -86,18 +68,15 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     }
 
     @Override
-    public Profesional actualizarProfesional(Profesional profesional) throws Exception {
-        return null;
-    }
-
-    @Override
-    public void eliminarProfesional(Long id) throws Exception {
+    public void actualizarEstadoProfesional(Long id) throws Exception {
         Profesional profesional = profesionalRepository.findById(id)
                 .orElseThrow(() -> new Exception("No se encontró ningún profesional con el ID especificado."));
-        profesional.setEstado(false);
+
+        boolean estadoActual = profesional.isEstado();
+        profesional.setEstado(!estadoActual);
+
         profesionalRepository.save(profesional);
     }
-
     @Override
     public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesPorEspecialidad(String especialidad) throws Exception {
         List<Profesional> profesional = profesionalRepository.buscarPorEspecialidad(especialidad);
@@ -105,6 +84,19 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         return profesional.stream()
                 .map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido()))
                 .collect(Collectors.toList());
+    }
+
+    public void eliminarProfesional(Long id) throws Exception {
+        if (profesionalRepository.existsById(id)) {
+            profesionalRepository.deleteById(id);
+        } else {
+            throw new Exception("No se encontró ningún profesional con el ID especificado.");
+        }
+    }
+
+    @Override
+    public Profesional actualizarProfesional(Profesional profesional) throws Exception {
+        return null;
     }
 
 }

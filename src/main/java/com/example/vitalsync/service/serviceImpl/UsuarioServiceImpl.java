@@ -29,12 +29,6 @@ public class UsuarioServiceImpl implements UserDetailsService {
     private final ModelMapper modelMapper = new ModelMapper();
     private PasswordEncoder passwordEncoder;
 
-//    public UsuarioServiceImpl() {
-//    }
-//
-//    public UsuarioServiceImpl( PasswordEncoder passwordEncoder) {
-//        this.passwordEncoder = passwordEncoder;
-//    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
