@@ -10,7 +10,6 @@ public interface PacienteService {
 
     List<Paciente> listarPacientes() throws Exception;
 
-
     Paciente obtenerPacientePorId(Long id) throws Exception;
 
     Paciente actualizarPersonal(Paciente paciente) throws Exception;

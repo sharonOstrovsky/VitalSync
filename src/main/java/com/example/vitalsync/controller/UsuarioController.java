@@ -31,5 +31,24 @@ public class UsuarioController {
         List<Usuario> result = usuarioService.listarUsuarios();
         return  ResponseEntity.ok(result);
     }
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout() {
+        // Lógica para cerrar sesión aquí
+        System.out.println("Se cerro sesion");
+        return ResponseEntity.ok("Sesión cerrada exitosamente.");
+    }
 
+    @GetMapping("/pag")
+    public String prueba (){
+        return "Siiii, ingresaste";
+    }
+    @GetMapping("/prueba2")
+    public String prueba2 (){
+        return "Sos profesional";
+    }
+
+    @GetMapping("/prueba3")
+    public String prueba3 (){
+        return "Sos PACIENTE";
+    }
 }

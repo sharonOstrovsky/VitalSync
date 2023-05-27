@@ -1,5 +1,6 @@
 package com.example.vitalsync.service.serviceImpl;
 
+import com.example.vitalsync.dto.request.UsuarioLoginRequestDTO;
 import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
 import com.example.vitalsync.dto.response.PacienteResponseDTO;
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,7 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     private ProfesionalRepository profesionalRepository;
     private UsuarioServiceImpl usuarioService;
     private UsuarioRepository usuarioRepository;
+    private PasswordEncoder passwordEncoder;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -38,37 +41,45 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         return profesionalRepository.findAll();
     }
 
+//    public PacienteResponseDTO guardarPaciente(PacienteRequestDTO pacienteDto) throws Exception {
+//        Usuario usuario = modelMapper.map(pacienteDto.getUsuario(), Usuario.class);
+//        usuario.setClave(passwordEncoder.encode(pacienteDto.getUsuario().getClave()));
+//        UsuarioLoginRequestDTO usuarioDto = new UsuarioLoginRequestDTO();
+//        usuarioDto.setEmail(usuario.getEmail());
+//        usuarioDto.setClave(usuario.getClave());
+//        Usuario usuarioGuardado= usuarioService.guardarUsuario(usuarioDto);
+//        usuarioGuardado.setRol(Rol.PACIENTE);
+//
+//        Paciente paciente = new Paciente();
+//        paciente.setNombre(pacienteDto.getNombre());
+//        paciente.setApellido(pacienteDto.getApellido());
+//        paciente.setUsuario(usuarioGuardado);
+//        pacienteRepository.save(paciente);
+//
+//        return modelMapper.map(paciente, PacienteResponseDTO.class);
+//    }
+
     @Override
     public ProfesionalResponseDTO guardarProfesional(ProfesionalRequestDTO profesionalReqDto) throws Exception {
         Usuario usuario = modelMapper.map(profesionalReqDto.getUsuario(),Usuario.class);
-        usuarioRepository.save(usuario);
-        usuario.setRol(Rol.PROFESIONAL);
+        usuario.setClave(passwordEncoder.encode(profesionalReqDto.getUsuario().getClave()));
+        UsuarioLoginRequestDTO usuarioDto = new UsuarioLoginRequestDTO();
+        usuarioDto.setEmail(usuario.getEmail());
+        usuarioDto.setClave(usuario.getClave());
+        Usuario usuarioGuardado = usuarioService.guardarUsuario(usuarioDto);
+        usuarioGuardado.setRol(Rol.PROFESIONAL);
+
         Profesional profesional = new Profesional();
         profesional.setNombre(profesionalReqDto.getNombre());
         profesional.setApellido(profesionalReqDto.getApellido());
-        profesional.setUsuario(usuario);
         profesional.setEstado(true);
         profesional.setEspecialidad(profesionalReqDto.getEspecialidad());
+        profesional.setUsuario(usuarioGuardado);
         profesionalRepository.save(profesional);
         return modelMapper.map(profesional, ProfesionalResponseDTO.class);
     }
 
-//    @Override
-//    public PacienteResponseDTO guardarPaciente(PacienteRequestDTO pacienteDto) throws Exception {
-////        usuarioService.guardarUsuario(pacienteDto.getUsuario());
-//        Usuario usuario = modelMapper.map(pacienteDto.getUsuario(), Usuario.class);
-//        usuarioRepository.save(usuario); //TODO Cambiar a service
-////        usuarioService.guardarUsuario(usuario);
-//        usuario.setRol(Rol.PACIENTE);
-//        System.out.println(usuario);
-//        Paciente paciente = new Paciente();
-//        paciente.setNombre(pacienteDto.getNombre());
-//        paciente.setApellido(pacienteDto.getApellido());
-//        paciente.setUsuario(usuario);
-//        System.out.println(paciente);
-//        pacienteRepository.save(paciente);
-//        return modelMapper.map(paciente, PacienteResponseDTO.class);
-//    }
+
     @Override
     public Profesional obtenerProfesionalPorId(Long id) throws Exception {
         return profesionalRepository.findById(id).get();
