@@ -7,6 +7,7 @@ import com.example.vitalsync.repository.UsuarioRepository;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,7 +24,9 @@ import java.util.List;
 @Service
 //@AllArgsConstructor
 //@NoArgsConstructor
+@Primary
 public class UsuarioServiceImpl implements UserDetailsService {
+
     @Autowired
     private UsuarioRepository usuarioRepository;
     private final ModelMapper modelMapper = new ModelMapper();
