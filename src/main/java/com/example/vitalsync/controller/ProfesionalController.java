@@ -47,7 +47,7 @@ public class ProfesionalController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró ningún profesional con el ID especificado.");
         }
     }
-    @PostMapping("/create")
+    @PostMapping("/crear")
     //TODO public ResponseEntity<ProfesionalResponseDTO>
     public ResponseEntity<ProfesionalResponseDTO> create(@RequestBody ProfesionalRequestDTO profesional) throws Exception {
         ProfesionalResponseDTO result = profesionalService.guardarProfesional(profesional);

@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
 @RestController
 @RequestMapping("/vitalsync/paciente")
+@AllArgsConstructor
 @CrossOrigin
 public class PacienteController {
 
@@ -28,7 +29,7 @@ public class PacienteController {
         return PacienteOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/create")
+    @PostMapping("/crear")
     //TODO public ResponseEntity<ProfesionalResponseDTO>
     public ResponseEntity<PacienteResponseDTO> create(@RequestBody PacienteRequestDTO paciente) throws Exception {
         PacienteResponseDTO result = pacienteService.guardarPaciente(paciente);

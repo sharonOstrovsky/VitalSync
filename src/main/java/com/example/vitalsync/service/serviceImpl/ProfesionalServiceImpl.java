@@ -24,7 +24,6 @@ public class ProfesionalServiceImpl implements ProfesionalService {
 
     private ProfesionalRepository profesionalRepository;
     private UsuarioServiceImpl usuarioService;
-    private UsuarioRepository usuarioRepository;
     private PasswordEncoder passwordEncoder;
 
     private final ModelMapper modelMapper = new ModelMapper();

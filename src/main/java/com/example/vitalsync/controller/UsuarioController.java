@@ -20,7 +20,6 @@ public class UsuarioController {
     private UsuarioServiceImpl usuarioService;
 
     @PostMapping("/create")
-    //TODO public ResponseEntity<ProfesionalResponseDTO>
     public ResponseEntity<String> create(@RequestBody UsuarioLoginRequestDTO usuario) throws Exception {
         Usuario result = usuarioService.guardarUsuario(usuario);
 
@@ -29,12 +28,12 @@ public class UsuarioController {
     @GetMapping("/listar")
     public ResponseEntity<List<Usuario>> listarUsuarios() throws Exception{
         List<Usuario> result = usuarioService.listarUsuarios();
+
         return  ResponseEntity.ok(result);
     }
     @GetMapping("/logout")
     public ResponseEntity<String> logout() {
-        // Lógica para cerrar sesión aquí
-        System.out.println("Se cerro sesion");
+
         return ResponseEntity.ok("Sesión cerrada exitosamente.");
     }
 }

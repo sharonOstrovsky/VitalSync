@@ -56,6 +56,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 //                .antMatchers("/vitalsync/usuario/*").permitAll()
+                .antMatchers("/vitalsync/admin/crear").permitAll()
                 .antMatchers("/vitalsync/usuario/prueba2").hasRole("PROFESIONAL")
                 .antMatchers("/vitalsync/usuario/prueba3").hasRole("PACIENTE")
                 .antMatchers("/vitalsync/usuario/pag").permitAll()
@@ -94,18 +95,18 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
             Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) authentication.getAuthorities();
 
-//            for (SimpleGrantedAuthority authority : authorities) {
-//                if (authority.getAuthority().equals("ROLE_ADMIN")) {
-//                    response.sendRedirect("/vitalsync/admin");
-//                    return;
-//                } else if (authority.getAuthority().equals("ROLE_PROFESIONAL")) {
-//                    response.sendRedirect("/vitalsync/usuario/prueba2");
-//                    return;
-//                } else if (authority.getAuthority().equals("ROLE_PACIENTE")) {
-//                    response.sendRedirect("/vitalsync/usuario/prueba3");
-//                    return;
-//                }
-//            }
+            for (SimpleGrantedAuthority authority : authorities) {
+                if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                    response.sendRedirect("https://www.google.com.ar/");
+                    return;
+                } else if (authority.getAuthority().equals("ROLE_PROFESIONAL")) {
+                    response.sendRedirect("/vitalsync/usuario/prueba2");
+                    return;
+                } else if (authority.getAuthority().equals("ROLE_PACIENTE")) {
+                    response.sendRedirect("/vitalsync/usuario/prueba3");
+                    return;
+                }
+            }
             response.sendRedirect("/vitalsync/usuario/pag");
         }
     }

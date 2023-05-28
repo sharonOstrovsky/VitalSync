@@ -1,7 +1,6 @@
 package com.example.vitalsync.dto.request.profesional;
 
 import com.example.vitalsync.entity.Dia;
-import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.utils.CoberturaMedica;
 import lombok.Data;
 
