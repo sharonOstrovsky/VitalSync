@@ -1,8 +1,6 @@
 package com.example.vitalsync.dto.request.paciente;
 
-import com.example.vitalsync.dto.request.UsuarioLoginRequestDTO;
-import com.example.vitalsync.entity.Usuario;
-import com.example.vitalsync.utils.CoberturaMedica;
+import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import lombok.Getter;
 import lombok.Setter;
 

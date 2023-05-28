@@ -1,4 +1,4 @@
-package com.example.vitalsync.dto.response;
+package com.example.vitalsync.dto.response.profesional;
 
 import lombok.Data;
 

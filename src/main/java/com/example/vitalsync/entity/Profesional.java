@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Profesional")
 public class Profesional extends Persona{
     private String especialidad;
@@ -27,8 +28,4 @@ public class Profesional extends Persona{
     private List<Dia> diasTrabajo;
     @OneToOne //(cascade =CascadeType.ALL)
     protected Usuario usuario;
-
-    public Profesional() {
-    }
-
 }

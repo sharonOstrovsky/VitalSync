@@ -1,28 +1,21 @@
 package com.example.vitalsync.service.serviceImpl;
 
-import com.example.vitalsync.dto.request.UsuarioLoginRequestDTO;
-import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
+import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
-import com.example.vitalsync.dto.response.PacienteResponseDTO;
-import com.example.vitalsync.dto.response.ProfesionalPorEspecialidadResponseDTO;
-import com.example.vitalsync.dto.response.ProfesionalResponseDTO;
-import com.example.vitalsync.entity.Paciente;
+import com.example.vitalsync.dto.response.profesional.ProfesionalPorEspecialidadResponseDTO;
+import com.example.vitalsync.dto.response.profesional.ProfesionalResponseDTO;
 import com.example.vitalsync.entity.Profesional;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.ProfesionalRepository;
 import com.example.vitalsync.repository.UsuarioRepository;
 import com.example.vitalsync.service.service.ProfesionalService;
-import com.example.vitalsync.service.service.UsuarioService;
 import com.example.vitalsync.utils.Rol;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

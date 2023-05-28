@@ -1,4 +1,4 @@
-package com.example.vitalsync.dto.request;
+package com.example.vitalsync.dto.request.usuario;
 
 import lombok.Data;
 import lombok.Getter;

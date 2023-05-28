@@ -1,6 +1,6 @@
 package com.example.vitalsync.service.serviceImpl;
 
-import com.example.vitalsync.dto.request.UsuarioLoginRequestDTO;
+import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import com.example.vitalsync.entity.Admin;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.service.service.AdminService;

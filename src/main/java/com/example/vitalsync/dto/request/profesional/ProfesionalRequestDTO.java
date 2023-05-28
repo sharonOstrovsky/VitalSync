@@ -1,6 +1,6 @@
 package com.example.vitalsync.dto.request.profesional;
 
-import com.example.vitalsync.dto.request.UsuarioLoginRequestDTO;
+import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import lombok.Data;
 
 @Data

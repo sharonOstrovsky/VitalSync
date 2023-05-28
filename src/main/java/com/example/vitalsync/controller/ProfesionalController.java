@@ -1,8 +1,8 @@
 package com.example.vitalsync.controller;
 
 import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
-import com.example.vitalsync.dto.response.ProfesionalPorEspecialidadResponseDTO;
-import com.example.vitalsync.dto.response.ProfesionalResponseDTO;
+import com.example.vitalsync.dto.response.profesional.ProfesionalPorEspecialidadResponseDTO;
+import com.example.vitalsync.dto.response.profesional.ProfesionalResponseDTO;
 import com.example.vitalsync.entity.Profesional;
 import com.example.vitalsync.service.service.ProfesionalService;
 import lombok.AllArgsConstructor;

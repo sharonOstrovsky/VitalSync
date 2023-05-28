@@ -1,6 +1,5 @@
-package com.example.vitalsync.dto.response;
+package com.example.vitalsync.dto.response.paciente;
 
-import com.example.vitalsync.dto.request.UsuarioLoginRequestDTO;
 import lombok.Data;
 
 @Data

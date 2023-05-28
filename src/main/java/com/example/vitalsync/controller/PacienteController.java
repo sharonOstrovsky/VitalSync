@@ -1,7 +1,7 @@
 package com.example.vitalsync.controller;
 
 import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
-import com.example.vitalsync.dto.response.PacienteResponseDTO;
+import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
 import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.service.service.PacienteService;
 import lombok.AllArgsConstructor;
@@ -42,4 +42,6 @@ public class PacienteController {
         List<Paciente> result = pacienteService.listarPacientes();
         return  ResponseEntity.ok(result);
     }
+
+//    @PutMapping("/editar/)
 }

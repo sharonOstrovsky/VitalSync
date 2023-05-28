@@ -1,7 +1,6 @@
 package com.example.vitalsync.service.service;
 
-import com.example.vitalsync.dto.request.UsuarioLoginRequestDTO;
-import com.example.vitalsync.entity.LoginMessage;
+import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import com.example.vitalsync.entity.Usuario;
 
 import java.util.List;

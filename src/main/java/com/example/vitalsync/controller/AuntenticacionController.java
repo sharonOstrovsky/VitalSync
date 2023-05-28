@@ -1,7 +1,7 @@
 package com.example.vitalsync.controller;
 
-import com.example.vitalsync.dto.request.UsuarioInfo;
-import com.example.vitalsync.dto.request.UsuarioLoginRequestDTO;
+import com.example.vitalsync.dto.request.usuario.UsuarioInfoRequestDTO;
+import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,7 +44,7 @@ public class AuntenticacionController {
     public ResponseEntity<?> getUserInfo(Principal user) {
         User userObj = (User) userDetailsService.loadUserByUsername(user.getName());
 
-        UsuarioInfo userInfo = new UsuarioInfo();
+        UsuarioInfoRequestDTO userInfo = new UsuarioInfoRequestDTO();
         userInfo.setFirstName(userObj.getUsername());
         userInfo.setLastName(userObj.getPassword());
         userInfo.setRoles(userObj.getAuthorities().toArray());

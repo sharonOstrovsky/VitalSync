@@ -1,6 +1,6 @@
-package com.example.vitalsync.dto.request;
+package com.example.vitalsync.dto.request.usuario;
 
-public class UsuarioInfo {
+public class UsuarioInfoRequestDTO {
     private String firstName;
     private String lastName;
     private String userName;
