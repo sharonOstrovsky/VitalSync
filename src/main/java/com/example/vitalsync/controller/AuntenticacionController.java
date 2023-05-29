@@ -24,7 +24,6 @@ public class AuntenticacionController {
     private AuthenticationManager authenticationManager;
     private UserDetailsService userDetailsService;
 
-
     public AuntenticacionController(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }

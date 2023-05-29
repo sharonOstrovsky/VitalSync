@@ -2,7 +2,6 @@ package com.example.vitalsync.service.serviceImpl;
 
 import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 
-import com.example.vitalsync.entity.LoginMessage;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.UsuarioRepository;
 
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 //@AllArgsConstructor
@@ -35,20 +33,20 @@ public class UsuarioServiceImpl implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
 
-//    @Override
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        Usuario usuario = usuarioRepository.findByEmail(email);
-//        System.out.println(usuario + "!");
-//        if (usuario == null) {
-//            throw new UsernameNotFoundException("Usuario no encontrado: " + usuario);
-//        }
-//        List<GrantedAuthority> permissions = new ArrayList<>();
-//        GrantedAuthority p = new SimpleGrantedAuthority( usuario.getRol().toString());
-//        permissions.add(p);
-//        User u = new User(usuario.getEmail(), usuario.getClave(), permissions);
-//        System.out.println(u);
-//        return u;
-//    }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        System.out.println(usuario + "!");
+        if (usuario == null) {
+            throw new UsernameNotFoundException("Usuario no encontrado: " + usuario);
+        }
+        List<GrantedAuthority> permissions = new ArrayList<>();
+        GrantedAuthority p = new SimpleGrantedAuthority( usuario.getRol().toString());
+        permissions.add(p);
+        User u = new User(usuario.getEmail(), usuario.getClave(), permissions);
+        System.out.println(u);
+        return u;
+    }
     public List<Usuario> listarUsuarios() throws Exception {
         return usuarioRepository.findAll();
     }
@@ -59,31 +57,6 @@ public class UsuarioServiceImpl implements UserDetailsService {
         return usuarioRepository.save(usuario);
     }
 
-    public LoginMessage loginUsuario(UsuarioLoginRequestDTO usuarioRequestDTO) {
-        String msg = "";
-        Usuario u = usuarioRepository.findByEmail(usuarioRequestDTO.getEmail());
-        if (u != null) {
-            String password = usuarioRequestDTO.getClave();
-            String encodedPassword = u.getClave();
-            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-            if (isPwdRight) {
-                Optional<Usuario> employee = usuarioRepository.findOneByEmailAndPassword(usuarioRequestDTO.getEmail(), encodedPassword);
-                if (employee.isPresent()) {
-                    return new LoginMessage("Login Success", true);
-                } else {
-                    return new LoginMessage("Login Failed", false);
-                }
-            } else {
 
-                return new LoginMessage("password Not Match", false);
-            }
-        }else {
-            return new LoginMessage("Email not exits", false);
-        }
 
-    }
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
-    }
 }
