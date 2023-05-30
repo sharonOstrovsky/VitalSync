@@ -31,8 +31,6 @@ import java.util.Collections;
 //@AllArgsConstructor
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-//    private UsuarioService usuarioService;
-//    private SecurityConfig securityConfig;
     @Bean
     public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -41,15 +39,45 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return new UsuarioServiceImpl();
     }
+
+    /**
+     El metodo AuthenticationManagerBuilder es parte de Spring Security y es usado para configurar el authentication
+     manager.
+
+     El metodo .inMemoryAuthentication() configura la autenticacion para usar en memoria del user details.
+     *  auth.inMemoryAuthentication() -> Significa que las credenciales del usuario son almacenadas en memoria y no persisten en una base de datos.
+     *  .withUser("Max") -> Setea el username del usuario en la memoria.
+     *  .password(passwordEncoder().encode("1234")) -> Setea la contraseña del usuario en memoria. passwordEncoder().encode("1234")
+     indica que la contraseña debe ser codificada con un codificador de contraseñas (password encoder)
+     *  .authorities("ROL_ADMIN") -> Setea los roles para el usuario en memoria, en este caso se le asigan el rol ADMIN
+
+     *  auth.userDetailsService(userDetailsService()) -> Configura el authentication manager para usar un userDetailsService
+     personalizado.
+
+     *  userDetailsService() Debe retornar una implementación de la interface UserDetailService, el cual proporciona un user
+     details (username, password, authorities) para la autenticación.
+     *  .passwordEncoder(passwordEncoder()) -> Configura  el codificador de contraseñas que sera usado para codificar y verificar
+     contraseñas. passwordEncoder() debe retornar una instancia del passwrodEncoder, como BCryptPasswordEncoder para el
+     almacenamiento seguro de contraseñas.
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("Max")
                 .password(passwordEncoder().encode("1234"))
-                .authorities("ROL_ADMIN");
+                .authorities("ADMIN");
         auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
 
+    /**
+     *  Este método sobreescribe el método authenticationManagerBean() de la clase WebSecurityConfigurerAdapter.
+     *  Se utiliza para exponer el Bean AuthenticationManager, que es responsable de autenticar las credenciales del usuario.
+     * Al anular y exponer el método authenticationManagerBean() como un Bean, se permite que otros componentes de tu
+     * aplicación accedan y utilicen el Bean AuthenticationManager
+     *
+     * @return Devuelve el bean AuthenticationManager
+     * @throws Exception
+     */
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -69,7 +97,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/vitalsync/usuario/prueba2").hasRole("PROFESIONAL")
                 .antMatchers("/vitalsync/usuario/prueba3").hasRole("PACIENTE")
                 //.antMatchers("/vitalsync/usuario/pag").permitAll()
-                .antMatchers("/vitalsync/admin/*").hasRole("ADMIN")
+                .antMatchers("/vitalsync/admin/*").permitAll()
                 .antMatchers("/vitalsync/profesional/create").hasRole("ADMIN")
                 //.antMatchers("/vitalsync/profesional/create").permitAll()
                 .antMatchers("/vitalsync/paciente/*").permitAll()
@@ -88,7 +116,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .logout() // Configurar la acción de cierre de sesión
                 .logoutUrl("/logout")
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+                .deleteCookies("JSESSIONID","SESSIONID")
                 .logoutSuccessUrl("/login"); // Redirigir a la página principal después de cerrar sesión
 
         //http.authorizeRequests().antMatchers("swagger-ui/index.html#").permitAll();
@@ -125,7 +153,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             response.sendRedirect("/vitalsync/usuario/pag");
         }
     }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

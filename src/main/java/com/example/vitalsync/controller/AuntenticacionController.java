@@ -13,13 +13,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
-import java.security.Principal;
 import java.security.spec.InvalidKeySpecException;
 
 @RestController
@@ -68,6 +66,22 @@ public class AuntenticacionController {
             // El inicio de sesión falló, enviar una respuesta con estado 401 Unauthorized
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+        // Borrar las cookies
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        }
+
+        // Opcional: Invalidar la sesión
+        request.getSession().invalidate();
+
+        return ResponseEntity.ok("Sesión cerrada exitosamente.");
     }
 
 }

@@ -31,9 +31,4 @@ public class UsuarioController {
 
         return  ResponseEntity.ok(result);
     }
-    @GetMapping("/logout")
-    public ResponseEntity<String> logout() {
-
-        return ResponseEntity.ok("Sesión cerrada exitosamente.");
-    }
 }
