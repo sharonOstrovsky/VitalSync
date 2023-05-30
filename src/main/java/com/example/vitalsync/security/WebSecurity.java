@@ -7,18 +7,24 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -53,22 +59,31 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .configurationSource(corsConfigurationSource())
+                .and()
                 .csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/vitalsync/usuario/*").permitAll()
-                .antMatchers("/vitalsync/admin/crear").permitAll()
+//                  .antMatchers("/vitalsync/usuario/*").permitAll()
+                .antMatchers("/vitalsync/auth/login").permitAll()
                 .antMatchers("/vitalsync/usuario/prueba2").hasRole("PROFESIONAL")
                 .antMatchers("/vitalsync/usuario/prueba3").hasRole("PACIENTE")
-                .antMatchers("/vitalsync/usuario/pag").permitAll()
+                //.antMatchers("/vitalsync/usuario/pag").permitAll()
                 .antMatchers("/vitalsync/admin/*").hasRole("ADMIN")
-//                .antMatchers("/vitalsync/profesional/create").hasRole("ADMIN")
-                .antMatchers("/vitalsync/profesional/create").permitAll()
+                .antMatchers("/vitalsync/profesional/create").hasRole("ADMIN")
+                //.antMatchers("/vitalsync/profesional/create").permitAll()
                 .antMatchers("/vitalsync/paciente/*").permitAll()
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/vitalsync/usuario/pag") // Redirecciona a otra pagina despues de logearse
+                .loginPage("/vitalsync/auth/login")
+                .loginProcessingUrl("/vitalsync/usuario/page") // Redirecciona a otra pagina despues de logearse
                 .successHandler(authenticationSuccessHandler())
                 .permitAll()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .and()
+                .httpBasic()
                 .and()
                 .logout() // Configurar la acción de cierre de sesión
                 .logoutUrl("/logout")
@@ -76,7 +91,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/login"); // Redirigir a la página principal después de cerrar sesión
 
-//        http.authorizeRequests().antMatchers("swagger-ui/index.html#").permitAll();
+        //http.authorizeRequests().antMatchers("swagger-ui/index.html#").permitAll();
     }
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
@@ -109,5 +124,20 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             }
             response.sendRedirect("/vitalsync/usuario/pag");
         }
+    }
+
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); // Reemplaza con el origen correcto de tu aplicación React
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
