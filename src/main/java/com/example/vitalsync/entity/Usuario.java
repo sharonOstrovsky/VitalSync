@@ -1,9 +1,7 @@
 package com.example.vitalsync.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.example.vitalsync.utils.Rol;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,13 +9,15 @@ import javax.persistence.*;
 @Table(name = "Usuario")
 @Getter
 @Setter
-@NoArgsConstructor
+@ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String usuario;
     private String clave;
-    //private Rol rol;
+    private String email;
+    @Enumerated (EnumType.STRING)
+    private Rol rol;
 }

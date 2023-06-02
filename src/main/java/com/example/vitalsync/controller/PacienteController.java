@@ -1,5 +1,7 @@
 package com.example.vitalsync.controller;
 
+import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
+import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
 import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.service.service.PacienteService;
 import lombok.AllArgsConstructor;
@@ -9,10 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
 @RestController
 @RequestMapping("/vitalsync/paciente")
-@CrossOrigin("*")
+@AllArgsConstructor
+@CrossOrigin
 public class PacienteController {
 
 
@@ -28,10 +31,10 @@ public class PacienteController {
         return PacienteOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/create")
+    @PostMapping("/crear")
     //TODO public ResponseEntity<ProfesionalResponseDTO>
-    public ResponseEntity<Paciente> create(@RequestBody Paciente paciente) throws Exception {
-        Paciente result = pacienteService.guardarPaciente(paciente);
+    public ResponseEntity<PacienteResponseDTO> create(@RequestBody PacienteRequestDTO paciente) throws Exception {
+        PacienteResponseDTO result = pacienteService.guardarPaciente(paciente);
 
         return ResponseEntity.ok(result);
     }
@@ -42,4 +45,6 @@ public class PacienteController {
         List<Paciente> result = pacienteService.listarPacientes();
         return  ResponseEntity.ok(result);
     }
+
+//    @PutMapping("/editar/)
 }

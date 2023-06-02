@@ -4,10 +4,14 @@ import com.example.vitalsync.utils.CoberturaMedica;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Profesional")
 public class Profesional extends Persona{
     private String especialidad;
@@ -15,6 +19,9 @@ public class Profesional extends Persona{
     private String matricula;
     private boolean telemedicina;
     private boolean presencial;
+    private Integer puntuacion;
+    @ElementCollection
+    private List<String> comentarios;
     @ElementCollection
     @CollectionTable(name = "Persona_CoberturaMedica", joinColumns = @JoinColumn(name = "persona_id"))
     @Column(name = "coberturaMedica")
@@ -23,7 +30,6 @@ public class Profesional extends Persona{
     private String honorario;
     @ManyToMany
     private List<Dia> diasTrabajo;
-    @OneToOne
+    @OneToOne //(cascade =CascadeType.ALL)
     protected Usuario usuario;
-
 }

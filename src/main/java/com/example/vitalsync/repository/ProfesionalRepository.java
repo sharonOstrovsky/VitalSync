@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ProfesionalRepository extends JpaRepository<Profesional,Long> {
     @Query (value = "SELECT DISTINCT p FROM Profesional p " +
-    "WHERE (:especialidad IS NULL OR p.especialidad LIKE CONCAT('%',:especialidad, '%'))")
+    "WHERE (:especialidad IS NULL OR p.especialidad LIKE CONCAT('%',:especialidad, '%')AND p.estado IS TRUE)")
     List <Profesional> buscarPorEspecialidad (@Param("especialidad") String especialidad
     );
 
