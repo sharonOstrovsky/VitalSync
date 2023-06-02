@@ -21,13 +21,24 @@ public class PacienteController {
 
     private final PacienteService pacienteService;
 
-    @GetMapping(("/{id}"))
-    //TODO public ResponseEntity<ProfesionalResponseDTO>
+    @GetMapping("/{id}")
     public ResponseEntity<Paciente> findById(@PathVariable Long id) throws Exception {
-        Optional<Paciente> PacienteOpt = Optional.ofNullable(pacienteService.obtenerPacientePorId(id));
+        Optional<Paciente> pacienteOpt = Optional.ofNullable(pacienteService.obtenerPacientePorId(id));
+
+        return pacienteOpt.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/email/{email}")
+    //TODO public ResponseEntity<ProfesionalResponseDTO>
+    public ResponseEntity<Paciente> findByEmail(@PathVariable String email) throws Exception {
+        Optional<Paciente> PacienteOpt = pacienteService.obtenerPacientePorEmail(email);
 
         return PacienteOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
+
+
 
     @PostMapping("/crear")
     //TODO public ResponseEntity<ProfesionalResponseDTO>

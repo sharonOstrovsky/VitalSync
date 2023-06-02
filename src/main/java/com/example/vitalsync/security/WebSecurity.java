@@ -101,6 +101,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/vitalsync/profesional/create").hasRole("ADMIN")
                 //.antMatchers("/vitalsync/profesional/create").permitAll()
                 .antMatchers("/vitalsync/paciente/*").permitAll()
+                .antMatchers("/vitalsync/paciente/{email}").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/vitalsync/auth/login")
