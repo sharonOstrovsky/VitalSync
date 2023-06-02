@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@EnableJpaRepositories
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente,Long> {
     //Paciente findByEmail(String email);
 
-    @Query("SELECT u FROM Usuario u WHERE u.email = :email")
+    @Query("SELECT p FROM Paciente p INNER JOIN p.usuario u WHERE u.email = :email")
     Optional<Paciente> findByEmail(String email);
 }
+
