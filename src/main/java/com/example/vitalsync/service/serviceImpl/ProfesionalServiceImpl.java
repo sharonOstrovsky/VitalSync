@@ -64,7 +64,7 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         Profesional profesional = profesionalRepository.findById(id)
                 .orElseThrow(() -> new Exception("No se encontró ningún profesional con el ID especificado."));
 
-        boolean estadoActual = profesional.isEstado();
+        boolean estadoActual = profesional.getEstado();
         profesional.setEstado(!estadoActual);
 
         profesionalRepository.save(profesional);
@@ -90,5 +90,6 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     public Profesional actualizarProfesional(Profesional profesional) throws Exception {
         return null;
     }
+
 
 }

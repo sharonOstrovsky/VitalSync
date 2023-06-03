@@ -44,6 +44,7 @@ public class UsuarioServiceImpl implements UserDetailsService {
         GrantedAuthority p = new SimpleGrantedAuthority( usuario.getRol().toString());
         permissions.add(p);
         User u = new User(usuario.getEmail(), usuario.getClave(), permissions);
+
         System.out.println(u);
         return u;
     }

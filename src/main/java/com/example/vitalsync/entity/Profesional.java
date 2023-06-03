@@ -4,7 +4,6 @@ import com.example.vitalsync.utils.CoberturaMedica;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,10 +14,10 @@ import java.util.List;
 @Table(name = "Profesional")
 public class Profesional extends Persona{
     private String especialidad;
-    private boolean estado;
+    private Boolean estado;
     private String matricula;
-    private boolean telemedicina;
-    private boolean presencial;
+    private Boolean telemedicina;
+    private Boolean presencial;
     private Integer puntuacion;
     @ElementCollection
     private List<String> comentarios;
@@ -28,8 +27,10 @@ public class Profesional extends Persona{
     private List <CoberturaMedica> coberturaMedicaList;
     private String ubicacion;
     private String honorario;
+    @OneToMany
+    private List <Turno> turnos;
     @ManyToMany
     private List<Dia> diasTrabajo;
-    @OneToOne //(cascade =CascadeType.ALL)
+    @OneToOne
     protected Usuario usuario;
 }

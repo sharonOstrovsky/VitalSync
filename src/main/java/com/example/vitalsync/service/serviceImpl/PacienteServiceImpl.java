@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -54,9 +55,14 @@ public class PacienteServiceImpl implements PacienteService {
         return modelMapper.map(paciente, PacienteResponseDTO.class);
     }
 
+//    @Override
+//    public Paciente obtenerPacientePorId(Long id) throws Exception {
+//        return pacienteRepository.findById(id).get();
+//    }
+
     @Override
     public Paciente obtenerPacientePorId(Long id) throws Exception {
-        return pacienteRepository.findById(id).get();
+        return pacienteRepository.findById(id).orElseThrow(() -> new Exception("Paciente no encontrado"));
     }
 
     @Override
@@ -67,5 +73,14 @@ public class PacienteServiceImpl implements PacienteService {
     @Override
     public void eliminarPaciente(Long id) throws Exception {
         pacienteRepository.deleteById(id);
+    }
+
+    @Override
+    public Paciente traerPacientePorUsuario (String email) throws Exception {
+        Paciente paciente = pacienteRepository.findByUsuarioEmail(email);
+        if (paciente == null){
+            throw new Exception("No se encontro ningun paciente con ese email");
+        }
+        return paciente;
     }
 }
