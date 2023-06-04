@@ -25,4 +25,5 @@ public class Paciente extends Persona {
     private List<String> observaciones;
     @OneToOne
     protected Usuario usuario;
+    private Boolean estado;
 }

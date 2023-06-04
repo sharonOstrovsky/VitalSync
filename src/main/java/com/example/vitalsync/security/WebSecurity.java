@@ -1,5 +1,6 @@
 package com.example.vitalsync.security;
 import com.example.vitalsync.service.serviceImpl.UsuarioServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,9 +27,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+
 @Configuration
 @EnableWebSecurity
-//@AllArgsConstructor
+@AllArgsConstructor
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -92,21 +94,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-//                  .antMatchers("/vitalsync/usuario/*").permitAll()
+
+                .antMatchers("/vitalsync/usuario/create").permitAll()
                 .antMatchers("/vitalsync/auth/login").permitAll()
-                .antMatchers("/vitalsync/usuario/prueba2").hasRole("PROFESIONAL")
-                .antMatchers("/vitalsync/usuario/prueba3").hasRole("PACIENTE")
-                //.antMatchers("/vitalsync/usuario/pag").permitAll()
                 .antMatchers("/vitalsync/admin/*").permitAll()
-                .antMatchers("/vitalsync/profesional/create").hasRole("ADMIN")
-                //.antMatchers("/vitalsync/profesional/create").permitAll()
                 .antMatchers("/vitalsync/paciente/*").permitAll()
-                .antMatchers("vitalsync/auth/login").permitAll()
+                .antMatchers("/vitalsync/profesional/*").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/vitalsync/auth/login")
                 .loginProcessingUrl("/vitalsync/usuario/page") // Redirecciona a otra pagina despues de logearse
-                .successHandler(authenticationSuccessHandler())
+//                .successHandler(authenticationSuccessHandler())
                 .permitAll()
                 .and()
                 .sessionManagement()
