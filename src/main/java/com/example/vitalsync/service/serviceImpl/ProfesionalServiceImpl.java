@@ -2,9 +2,9 @@ package com.example.vitalsync.service.serviceImpl;
 
 import com.example.vitalsync.dto.request.profesional.ProfesionalComentariosRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalPuntuacionRequestDTO;
+import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalUpdateRequestDTO;
 import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
-import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
 import com.example.vitalsync.dto.response.profesional.*;
 import com.example.vitalsync.entity.Profesional;
 import com.example.vitalsync.entity.Turno;
@@ -13,9 +13,7 @@ import com.example.vitalsync.repository.ProfesionalRepository;
 import com.example.vitalsync.repository.TurnoRepository;
 import com.example.vitalsync.service.service.ProfesionalService;
 import com.example.vitalsync.utils.Rol;
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -71,9 +69,10 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         this.setearIdMedicoTurno(profesional);
         return modelMapper.map(profesional, ProfesionalResponseDTO.class);
     }
+
     @Override
-    public Profesional guardarComentario(ProfesionalComentariosRequestDTO profesionalComentariosRequestDTO) throws Exception{
-        Profesional profesional =  traerProfesionalPorUsuario(profesionalComentariosRequestDTO.getEmail());
+    public Profesional guardarComentario(ProfesionalComentariosRequestDTO profesionalComentariosRequestDTO) throws Exception {
+        Profesional profesional = traerProfesionalPorUsuario(profesionalComentariosRequestDTO.getEmail());
         profesional.getComentarios().add(profesionalComentariosRequestDTO.getComentarios());
         profesionalRepository.save(profesional);
         return profesional;
@@ -94,7 +93,7 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         List<String> comentariosActualizados = new ArrayList<>();
 
         for (String coment : comentarios) {
-            if(!coment.equals(profesionalComentariosRequestDTO.getComentarios())){
+            if (!coment.equals(profesionalComentariosRequestDTO.getComentarios())) {
                 comentariosActualizados.add(coment);
             }
         }
@@ -105,7 +104,7 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     }
 
     @Override
-    public ProfesionalPuntuacionResponseDTO puntuarProfesional(Long id,ProfesionalPuntuacionRequestDTO profesionalPuntuacionRequestDTO) throws Exception {
+    public ProfesionalPuntuacionResponseDTO puntuarProfesional(Long id, ProfesionalPuntuacionRequestDTO profesionalPuntuacionRequestDTO) throws Exception {
         Profesional profesional = obtenerProfesionalPorId(id);
         profesional.getPuntuacionList().add(profesionalPuntuacionRequestDTO.getPuntuacion());
 
@@ -125,14 +124,13 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     }
 
 
-
     private Integer promedioPuntuacion(List<Integer> puntuacion) {
         Integer promedio = 0;
-        for (Integer p : puntuacion ) {
-            promedio+=p;
+        for (Integer p : puntuacion) {
+            promedio += p;
         }
-        System.out.println("PROMEDIP: "+promedio/puntuacion.size());
-        return promedio/puntuacion.size();
+        System.out.println("PROMEDIP: " + promedio / puntuacion.size());
+        return promedio / puntuacion.size();
     }
 
     private List<Turno> setearTurnos(Long id) throws Exception {
@@ -162,11 +160,13 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         });
         profesionalRepository.save(profesional);
     }
+
     @Override
     public List<Turno> mostrarTurnos(Long id) throws Exception {
         Profesional profesional = this.obtenerProfesionalPorId(id);
         return profesional.getTurnos();
     }
+
     @Override
     public Profesional obtenerProfesionalPorId(Long id) throws Exception {
 
@@ -212,7 +212,7 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     @Override
     public Profesional traerProfesionalPorUsuario(String email) throws Exception {
         Profesional profesional = profesionalRepository.findByUsuarioEmail(email);
-        if(profesional == null){
+        if (profesional == null) {
             throw new Exception("No se encontro ningun profesional con ese email");
         }
         return profesional;

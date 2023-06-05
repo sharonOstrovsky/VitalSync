@@ -1,13 +1,11 @@
 package com.example.vitalsync.service.serviceImpl;
 
+import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
 import com.example.vitalsync.dto.request.paciente.PacienteUpdateRequestDTO;
 import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
-import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseCompletoDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
 import com.example.vitalsync.entity.Paciente;
-import com.example.vitalsync.entity.Profesional;
-import com.example.vitalsync.entity.Turno;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.PacienteRepository;
 import com.example.vitalsync.service.service.PacienteService;
@@ -18,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.lang.model.element.PackageElement;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,8 +38,8 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public List<PacienteResponseCompletoDTO> listarPacientes() {
-        List<Paciente> result =pacienteRepository.findAll();
-        return result.stream().map(r -> modelMapper.map(r,PacienteResponseCompletoDTO.class)).collect(Collectors.toList());
+        List<Paciente> result = pacienteRepository.findAll();
+        return result.stream().map(r -> modelMapper.map(r, PacienteResponseCompletoDTO.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -81,17 +78,18 @@ public class PacienteServiceImpl implements PacienteService {
 
 
     @Override
-    public void cambiarEstadoPaciente (Long id) throws Exception {
+    public void cambiarEstadoPaciente(Long id) throws Exception {
         Paciente paciente = pacienteRepository.findById(id).orElseThrow(() -> new Exception("No se encontró ningún paciente con el ID especificado."));
         paciente.setEstado(!paciente.getEstado());
         pacienteRepository.save(paciente);
     }
+
     @Override
-    public void eliminarPaciente (Long id) throws Exception {
+    public void eliminarPaciente(Long id) throws Exception {
         Optional<Paciente> pacienteOptional = pacienteRepository.findById(id);
-        if(pacienteOptional.isPresent()){
+        if (pacienteOptional.isPresent()) {
             pacienteRepository.delete(pacienteOptional.get());
-        }else {
+        } else {
             throw new Exception("No se encontró ningún paciente con el ID especificado.");
         }
     }

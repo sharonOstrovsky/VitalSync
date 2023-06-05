@@ -31,5 +31,5 @@ public interface ProfesionalService {
 
     ProfesionalPuntuacionResponseDTO obtenerPuntuacion(Long id)throws Exception;
 
-    public List<Turno> setearTurnos(Long id) throws Exception;
-    }
+    public List<Turno> mostrarTurnos(Long id) throws Exception;
+}
