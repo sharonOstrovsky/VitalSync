@@ -5,6 +5,7 @@ import com.example.vitalsync.dto.request.profesional.ProfesionalComentariosReque
 import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalUpdateRequestDTO;
 
+import com.example.vitalsync.dto.response.profesional.ProfesionalPedirComentariosResponseDTO;
 import com.example.vitalsync.dto.response.profesional.ProfesionalPorEspecialidadResponseDTO;
 import com.example.vitalsync.dto.response.profesional.ProfesionalResponseDTO;
 import com.example.vitalsync.dto.response.profesional.ProfesionalUpdateResponseDTO;
@@ -40,6 +41,13 @@ public class ProfesionalController {
         Profesional result = profesionalService.guardarComentario(profesionalComentariosRequestDTO);
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/comentarios/{id}")
+    public ResponseEntity<ProfesionalPedirComentariosResponseDTO> listarComentarios(@PathVariable Long id) throws Exception{
+        ProfesionalPedirComentariosResponseDTO result = profesionalService.listarComentarios(id);
+        return ResponseEntity.ok(result);
+    }
+
 
     @GetMapping(("/{id}"))
     //TODO public ResponseEntity<ProfesionalResponseDTO>

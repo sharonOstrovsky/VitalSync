@@ -4,6 +4,7 @@ import com.example.vitalsync.dto.request.profesional.ProfesionalComentariosReque
 import com.example.vitalsync.dto.request.profesional.ProfesionalUpdateRequestDTO;
 import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
+import com.example.vitalsync.dto.response.profesional.ProfesionalPedirComentariosResponseDTO;
 import com.example.vitalsync.dto.response.profesional.ProfesionalPorEspecialidadResponseDTO;
 import com.example.vitalsync.dto.response.profesional.ProfesionalResponseDTO;
 import com.example.vitalsync.dto.response.profesional.ProfesionalUpdateResponseDTO;
@@ -68,6 +69,14 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         profesional.getComentarios().add(profesionalComentariosRequestDTO.getComentarios());
         profesionalRepository.save(profesional);
         return profesional;
+    }
+
+    @Override
+    public ProfesionalPedirComentariosResponseDTO listarComentarios(Long id) throws Exception {
+
+        Profesional profesional = obtenerProfesionalPorId(id);
+
+        return modelMapper.map(profesional, ProfesionalPedirComentariosResponseDTO.class);
     }
 
 
