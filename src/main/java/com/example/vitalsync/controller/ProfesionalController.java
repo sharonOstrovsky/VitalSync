@@ -48,6 +48,16 @@ public class ProfesionalController {
         return ResponseEntity.ok(result);
     }
 
+    @PutMapping("/eliminarComentario")
+    public ResponseEntity<String> eliminarComentario(@RequestBody ProfesionalComentariosRequestDTO profesionalComentariosRequestDTO){
+        try {
+            profesionalService.eliminarComentario(profesionalComentariosRequestDTO);
+            return ResponseEntity.ok("Comentario eliminado");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 
     @GetMapping(("/{id}"))
     //TODO public ResponseEntity<ProfesionalResponseDTO>

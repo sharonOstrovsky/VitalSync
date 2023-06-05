@@ -25,4 +25,7 @@ public interface ProfesionalService {
     public Profesional guardarComentario(ProfesionalComentariosRequestDTO profesionalComentariosRequestDTO) throws Exception;
 
     ProfesionalPedirComentariosResponseDTO listarComentarios(Long id) throws Exception;
+
+    void eliminarComentario(ProfesionalComentariosRequestDTO profesionalComentariosRequestDTO) throws Exception;
+
     }
