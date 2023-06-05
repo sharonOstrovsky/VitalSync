@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -77,6 +78,23 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         Profesional profesional = obtenerProfesionalPorId(id);
 
         return modelMapper.map(profesional, ProfesionalPedirComentariosResponseDTO.class);
+    }
+
+    @Override
+    public void eliminarComentario(ProfesionalComentariosRequestDTO profesionalComentariosRequestDTO) throws Exception {
+        Profesional profesional = traerProfesionalPorUsuario(profesionalComentariosRequestDTO.getEmail());
+        List<String> comentarios = profesional.getComentarios();
+        List<String> comentariosActualizados = new ArrayList<>();
+
+        for (String coment : comentarios) {
+            if(!coment.equals(profesionalComentariosRequestDTO.getComentarios())){
+                comentariosActualizados.add(coment);
+            }
+        }
+
+        profesional.setComentarios(comentariosActualizados);
+        profesionalRepository.save(profesional);
+
     }
 
 
