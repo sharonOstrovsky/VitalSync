@@ -4,6 +4,7 @@ import com.example.vitalsync.utils.CoberturaMedica;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,7 +21,7 @@ public class Profesional extends Persona{
     private Boolean presencial;
     private Integer puntuacion;
     @ElementCollection
-    private List<String> comentarios;
+    private List<String> comentarios = new ArrayList<>();
     @ElementCollection
     @CollectionTable(name = "Persona_CoberturaMedica", joinColumns = @JoinColumn(name = "persona_id"))
     @Column(name = "coberturaMedica")
