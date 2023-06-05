@@ -1,13 +1,11 @@
 package com.example.vitalsync.service.serviceImpl;
 
 import com.example.vitalsync.dto.request.profesional.ProfesionalComentariosRequestDTO;
+import com.example.vitalsync.dto.request.profesional.ProfesionalPuntuacionRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalUpdateRequestDTO;
 import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
-import com.example.vitalsync.dto.response.profesional.ProfesionalPedirComentariosResponseDTO;
-import com.example.vitalsync.dto.response.profesional.ProfesionalPorEspecialidadResponseDTO;
-import com.example.vitalsync.dto.response.profesional.ProfesionalResponseDTO;
-import com.example.vitalsync.dto.response.profesional.ProfesionalUpdateResponseDTO;
+import com.example.vitalsync.dto.response.profesional.*;
 import com.example.vitalsync.entity.Profesional;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.ProfesionalRepository;
@@ -17,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -95,6 +94,37 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         profesional.setComentarios(comentariosActualizados);
         profesionalRepository.save(profesional);
 
+    }
+
+    @Override
+    public ProfesionalPuntuacionResponseDTO puntuarProfesional(Long id,ProfesionalPuntuacionRequestDTO profesionalPuntuacionRequestDTO) throws Exception {
+        Profesional profesional = obtenerProfesionalPorId(id);
+        profesional.getPuntuacionList().add(profesionalPuntuacionRequestDTO.getPuntuacion());
+
+        Integer puntuacion = promedioPuntuacion(profesional.getPuntuacionList());
+
+        profesional.setPuntuacion(puntuacion);
+
+        profesionalRepository.save(profesional);
+
+        return modelMapper.map(puntuacion, ProfesionalPuntuacionResponseDTO.class);
+    }
+
+    @Override
+    public ProfesionalPuntuacionResponseDTO obtenerPuntuacion(Long id) throws Exception {
+        Profesional profesional = obtenerProfesionalPorId(id);
+        return modelMapper.map(profesional, ProfesionalPuntuacionResponseDTO.class);
+    }
+
+
+
+    private Integer promedioPuntuacion(List<Integer> puntuacion) {
+        Integer promedio = 0;
+        for (Integer p : puntuacion ) {
+            promedio+=p;
+        }
+        System.out.println("PROMEDIP: "+promedio/puntuacion.size());
+        return promedio/puntuacion.size();
     }
 
 
