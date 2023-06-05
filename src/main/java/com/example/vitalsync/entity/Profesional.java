@@ -19,6 +19,8 @@ public class Profesional extends Persona{
     private String matricula;
     private Boolean telemedicina;
     private Boolean presencial;
+    @ElementCollection
+    private List<Integer> puntuacionList;
     private Integer puntuacion;
     @ElementCollection
     private List<String> comentarios = new ArrayList<>();
