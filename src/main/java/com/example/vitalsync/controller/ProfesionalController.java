@@ -1,13 +1,12 @@
 package com.example.vitalsync.controller;
 
 
+import com.example.vitalsync.dto.request.profesional.ProfesionalComentariosRequestDTO;
+import com.example.vitalsync.dto.request.profesional.ProfesionalPuntuacionRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalUpdateRequestDTO;
 
-import com.example.vitalsync.dto.response.profesional.ProfesionalPorEspecialidadResponseDTO;
-import com.example.vitalsync.dto.response.profesional.ProfesionalResponseDTO;
-import com.example.vitalsync.dto.response.profesional.ProfesionalUpdateResponseDTO;
-import com.example.vitalsync.entity.Paciente;
+import com.example.vitalsync.dto.response.profesional.*;
 import com.example.vitalsync.entity.Profesional;
 import com.example.vitalsync.entity.Turno;
 import com.example.vitalsync.service.service.ProfesionalService;
@@ -35,6 +34,31 @@ public class ProfesionalController {
         ProfesionalResponseDTO result = profesionalService.guardarProfesional(profesional);
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/agregarComentario")
+    public ResponseEntity<Profesional> agregarComentario(@RequestBody ProfesionalComentariosRequestDTO profesionalComentariosRequestDTO) throws Exception{
+        Profesional result = profesionalService.guardarComentario(profesionalComentariosRequestDTO);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/comentarios/{id}")
+    public ResponseEntity<ProfesionalPedirComentariosResponseDTO> listarComentarios(@PathVariable Long id) throws Exception{
+        ProfesionalPedirComentariosResponseDTO result = profesionalService.listarComentarios(id);
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/eliminarComentario")
+    public ResponseEntity<String> eliminarComentario(@RequestBody ProfesionalComentariosRequestDTO profesionalComentariosRequestDTO){
+        try {
+            profesionalService.eliminarComentario(profesionalComentariosRequestDTO);
+            return ResponseEntity.ok("Comentario eliminado");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+
 
     @GetMapping(("/{id}"))
     //TODO public ResponseEntity<ProfesionalResponseDTO>
@@ -89,6 +113,28 @@ public class ProfesionalController {
         }
         return ResponseEntity.ok(result);
     }
+
+    @PutMapping("/puntuar/{id}")
+    public ResponseEntity<String> puntuarProfesional(@PathVariable Long id,@RequestBody ProfesionalPuntuacionRequestDTO profesionalPuntuacionRequestDTO) throws  Exception{
+        ProfesionalPuntuacionResponseDTO result;
+        try {
+            result = profesionalService.puntuarProfesional(id, profesionalPuntuacionRequestDTO);
+        } catch (HttpMessageNotReadableException e2){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e2.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+        return ResponseEntity.ok("Puntuación registrada.");
+
+    }
+
+    @GetMapping("/puntuacion/{id}")
+    public ResponseEntity<ProfesionalPuntuacionResponseDTO> puntuacionDelProfesional(@PathVariable Long id) throws  Exception{
+        ProfesionalPuntuacionResponseDTO result = profesionalService.obtenerPuntuacion(id);
+        return ResponseEntity.ok(result);
+    }
+
+
 
     @GetMapping("/usuario/{email}")
     public ResponseEntity<?> encontrarPorUsuario(@PathVariable String email) {

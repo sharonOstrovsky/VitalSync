@@ -19,9 +19,11 @@ public class Profesional extends Persona{
     private String matricula;
     private Boolean telemedicina;
     private Boolean presencial;
+    @ElementCollection
+    private List<Integer> puntuacionList;
     private Integer puntuacion;
     @ElementCollection
-    private List<String> comentarios;
+    private List<String> comentarios = new ArrayList<>();
     @ElementCollection
     @CollectionTable(name = "Persona_CoberturaMedica", joinColumns = @JoinColumn(name = "persona_id"))
     @Column(name = "coberturaMedica")
