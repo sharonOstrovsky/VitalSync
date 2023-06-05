@@ -1,5 +1,6 @@
 package com.example.vitalsync.service.serviceImpl;
 
+import com.example.vitalsync.dto.request.profesional.ProfesionalComentariosRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalUpdateRequestDTO;
 import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
@@ -11,9 +12,7 @@ import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.ProfesionalRepository;
 import com.example.vitalsync.service.service.ProfesionalService;
 import com.example.vitalsync.utils.Rol;
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,6 @@ public class ProfesionalServiceImpl implements ProfesionalService {
 
     @Override
     public ProfesionalResponseDTO guardarProfesional(ProfesionalRequestDTO profesionalReqDto) throws Exception {
-        System.out.println(profesionalReqDto);
         Usuario usuario = modelMapper.map(profesionalReqDto.getUsuario(), Usuario.class);
         usuario.setClave(passwordEncoder.encode(profesionalReqDto.getUsuario().getClave()));
         UsuarioLoginRequestDTO usuarioDto = new UsuarioLoginRequestDTO();
@@ -58,9 +56,18 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         profesional.setApellido(profesionalReqDto.getApellido());
         profesional.setEstado(true);
         profesional.setEspecialidad(profesionalReqDto.getEspecialidad());
+
         profesional.setUsuario(usuarioGuardado);
         profesionalRepository.save(profesional);
+
         return modelMapper.map(profesional, ProfesionalResponseDTO.class);
+    }
+    @Override
+    public Profesional guardarComentario(ProfesionalComentariosRequestDTO profesionalComentariosRequestDTO) throws Exception{
+        Profesional profesional =  traerProfesionalPorUsuario(profesionalComentariosRequestDTO.getEmail());
+        profesional.getComentarios().add(profesionalComentariosRequestDTO.getComentarios());
+        profesionalRepository.save(profesional);
+        return profesional;
     }
 
 
@@ -112,4 +119,6 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         }
         return profesional;
     }
+
+
 }

@@ -1,4 +1,5 @@
 package com.example.vitalsync.service.service;
+import com.example.vitalsync.dto.request.profesional.ProfesionalComentariosRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalRequestDTO;
 import com.example.vitalsync.dto.request.profesional.ProfesionalUpdateRequestDTO;
 import com.example.vitalsync.dto.response.profesional.ProfesionalPorEspecialidadResponseDTO;
@@ -19,4 +20,7 @@ public interface ProfesionalService {
     public ProfesionalUpdateResponseDTO editarProfesional (Long id, ProfesionalUpdateRequestDTO profesional) throws Exception;
 
     public Profesional traerProfesionalPorUsuario(String email) throws Exception;
-}
+
+    public Profesional guardarComentario(ProfesionalComentariosRequestDTO profesionalComentariosRequestDTO) throws Exception;
+
+    }
