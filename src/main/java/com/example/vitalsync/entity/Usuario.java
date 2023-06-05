@@ -1,8 +1,8 @@
 package com.example.vitalsync.entity;
 
+
 import com.example.vitalsync.utils.Rol;
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity

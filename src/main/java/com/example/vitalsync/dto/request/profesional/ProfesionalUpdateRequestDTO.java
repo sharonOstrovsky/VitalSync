@@ -1,25 +1,24 @@
 package com.example.vitalsync.dto.request.profesional;
 
-import com.example.vitalsync.entity.Dia;
 import com.example.vitalsync.utils.CoberturaMedica;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.List;
 @Data
-public class ProfesionalUpdateDTO {
+public class ProfesionalUpdateRequestDTO {
     private String nombre;
     private String apellido;
     private String telefono;
     private String especialidad;
-    private boolean estado;
+    private Boolean estado;
     private String matricula;
-    private boolean telemedicina;
-    private boolean presencial;
-    @ElementCollection
-    private List<CoberturaMedica> coberturaMedicaList;
+    private Boolean telemedicina;
+    private Boolean presencial;
+    @Enumerated(EnumType.STRING)
+    private List<CoberturaMedica> coberturaMedica;
     private String ubicacion;
     private String honorario;
-    @ManyToMany
-    private List<Dia> diasTrabajo;
+//    private List<Dia> diasTrabajo;
 }
