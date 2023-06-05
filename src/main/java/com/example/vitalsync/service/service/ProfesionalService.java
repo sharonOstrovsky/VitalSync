@@ -5,6 +5,7 @@ import com.example.vitalsync.dto.response.profesional.ProfesionalPorEspecialidad
 import com.example.vitalsync.dto.response.profesional.ProfesionalResponseDTO;
 import com.example.vitalsync.dto.response.profesional.ProfesionalUpdateResponseDTO;
 import com.example.vitalsync.entity.Profesional;
+import com.example.vitalsync.entity.Turno;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface ProfesionalService {
 
     public void eliminarProfesional(Long id) throws Exception;
     public ProfesionalUpdateResponseDTO editarProfesional (Long id, ProfesionalUpdateRequestDTO profesional) throws Exception;
-
+//    public List<Turno> setearTurnos(Long id) throws Exception;
     public Profesional traerProfesionalPorUsuario(String email) throws Exception;
+
+    public List<Turno> mostrarTurnos(Long id) throws Exception;
 }

@@ -4,6 +4,7 @@ import com.example.vitalsync.utils.CoberturaMedica;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -28,9 +29,10 @@ public class Profesional extends Persona{
     private String ubicacion;
     private String honorario;
     @OneToMany
-    private List <Turno> turnos;
-    @ManyToMany
-    private List<Dia> diasTrabajo;
-    @OneToOne
+    private List <Turno> turnos = new ArrayList<>();
+//    @ManyToMany
+//    private List<Dia> diasTrabajo;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     protected Usuario usuario;
+    private String foto;
 }

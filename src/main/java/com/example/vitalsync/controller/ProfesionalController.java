@@ -9,6 +9,7 @@ import com.example.vitalsync.dto.response.profesional.ProfesionalResponseDTO;
 import com.example.vitalsync.dto.response.profesional.ProfesionalUpdateResponseDTO;
 import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.entity.Profesional;
+import com.example.vitalsync.entity.Turno;
 import com.example.vitalsync.service.service.ProfesionalService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -99,6 +100,14 @@ public class ProfesionalController {
         }
     }
 
-
+    @GetMapping ("/turnos/{Id}")
+    public ResponseEntity<List<Turno>> verTurnos(@PathVariable Long Id){
+        try {
+            Profesional result = profesionalService.obtenerProfesionalPorId(Id);
+            return ResponseEntity.ok(result.getTurnos());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

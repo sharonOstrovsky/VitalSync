@@ -1,15 +1,14 @@
 package com.example.vitalsync.controller;
 
-import com.example.vitalsync.dto.request.usuario.UsuarioInfoRequestDTO;
 import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseCompletoDTO;
-import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
+
 import com.example.vitalsync.dto.response.profesional.ProfesionalUpdateResponseDTO;
 import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.entity.Profesional;
 import com.example.vitalsync.service.service.PacienteService;
 import com.example.vitalsync.service.service.ProfesionalService;
-import lombok.AllArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -96,10 +95,9 @@ public class AuntenticacionController {
                 userInfo.setHonorario(prof.getHonorario());
                 return ResponseEntity.ok().body(userInfo);
             }
-            Paciente p = pacienteService.traerPacientePorUsuario(authenticationRequest.getEmail());
-            Long pacienteId = p.getId();
+
             // Agregar la cookie a la respuesta HTTP
-            Cookie sessionCookie = new Cookie("SESSIONID", session.getId() + "_" + pacienteId);
+            Cookie sessionCookie = new Cookie("SESSIONID", session.getId());
             sessionCookie.setDomain("localhost");
             sessionCookie.setHttpOnly(true);
             sessionCookie.setSecure(true);

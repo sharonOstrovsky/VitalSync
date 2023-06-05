@@ -20,5 +20,6 @@ public class ProfesionalUpdateRequestDTO {
     private List<CoberturaMedica> coberturaMedica;
     private String ubicacion;
     private String honorario;
+    private String foto;
 //    private List<Dia> diasTrabajo;
 }

@@ -6,6 +6,8 @@ import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseCompletoDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
 import com.example.vitalsync.entity.Paciente;
+import com.example.vitalsync.entity.Profesional;
+import com.example.vitalsync.entity.Turno;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.PacienteRepository;
 import com.example.vitalsync.service.service.PacienteService;
@@ -27,6 +29,7 @@ public class PacienteServiceImpl implements PacienteService {
     private PacienteRepository pacienteRepository;
     private UsuarioServiceImpl usuarioService;
     private PasswordEncoder passwordEncoder;
+    private ProfesionalServiceImpl profesionalService;
 
     //TODO Moddel mapper no va acá
     private final ModelMapper modelMapper = new ModelMapper();
@@ -101,4 +104,10 @@ public class PacienteServiceImpl implements PacienteService {
         }
         return paciente;
     }
+
+//    @Override
+//    public void reservarTurno(Long id) throws Exception {
+//        List<Turno> turnos = profesionalService.mostrarTurnos(id);
+//        turnos.get(id).setDisponible(false);
+//    }
 }

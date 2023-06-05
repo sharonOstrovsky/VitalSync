@@ -17,13 +17,13 @@ public class Paciente extends Persona {
     private Integer edad;
     @Lob
     private byte[] foto;
-    @OneToMany
-    private List <Turno> turnos;
     @Enumerated (EnumType.STRING)
     private CoberturaMedica coberturaMedica;
-    @ElementCollection
-    private List<String> observaciones;
-    @OneToOne
+    @OneToMany
+    private List<HistorialMedico> historialMedico;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     protected Usuario usuario;
     private Boolean estado;
+    @OneToMany
+    private List<Turno> turnos;
 }
