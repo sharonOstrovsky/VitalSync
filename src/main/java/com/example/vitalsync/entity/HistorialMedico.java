@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class HistorialMedico {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,5 +19,4 @@ public class HistorialMedico {
     @OneToOne
     private Turno turno;
     private String observaciones;
-
 }

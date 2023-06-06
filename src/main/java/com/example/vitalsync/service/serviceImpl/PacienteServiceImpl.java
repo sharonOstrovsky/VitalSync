@@ -1,5 +1,6 @@
 package com.example.vitalsync.service.serviceImpl;
 
+import com.example.vitalsync.dto.request.historial.HistorialRequestDTO;
 import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
 import com.example.vitalsync.dto.request.paciente.PacienteUpdateRequestDTO;
 import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
@@ -9,7 +10,9 @@ import com.example.vitalsync.entity.HistorialMedico;
 import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.entity.Turno;
 import com.example.vitalsync.entity.Usuario;
+import com.example.vitalsync.repository.HistorialMedicoRepository;
 import com.example.vitalsync.repository.PacienteRepository;
+import com.example.vitalsync.service.service.HistorialMedicoService;
 import com.example.vitalsync.service.service.PacienteService;
 import com.example.vitalsync.service.service.ProfesionalService;
 import com.example.vitalsync.service.service.TurnoService;
@@ -32,6 +35,7 @@ public class PacienteServiceImpl implements PacienteService {
     private PasswordEncoder passwordEncoder;
     private ProfesionalService profesionalService;
     private TurnoService turnoService;
+    private HistorialMedicoService historialMedicoService;
 
     //TODO Moddel mapper no va acá
     private final ModelMapper modelMapper = new ModelMapper();
@@ -138,5 +142,23 @@ public class PacienteServiceImpl implements PacienteService {
         Optional<Paciente> paciente = pacienteRepository.findById(Id);
         List<HistorialMedico> historialMedico = paciente.get().getHistorialMedico();
         return historialMedico;
+    }
+
+    @Override
+    public void agregarAlHistorial(Long id, HistorialRequestDTO historial) throws Exception {
+
+        Optional<Paciente> paciente = pacienteRepository.findById(id);
+        System.out.println(paciente);
+        //HistorialMedico result = modelMapper.map(historial,HistorialMedico.class);
+        HistorialMedico result = new HistorialMedico();
+        result.setId(historial.getId());
+        System.out.println(historial);
+        result.setObservaciones(historial.getObservaciones());
+        historialMedicoService.actualizarHistorialMedico(result);
+        System.out.println(result);
+        paciente.get().getHistorialMedico().add(result);
+        System.out.println(paciente.get().getHistorialMedico());
+        this.actualizarPaciente(paciente.get());
+        System.out.println(paciente.get().getHistorialMedico());
     }
 }

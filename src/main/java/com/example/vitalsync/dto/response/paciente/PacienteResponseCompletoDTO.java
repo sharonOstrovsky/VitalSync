@@ -1,5 +1,6 @@
 package com.example.vitalsync.dto.response.paciente;
 
+import com.example.vitalsync.entity.HistorialMedico;
 import com.example.vitalsync.entity.Turno;
 import com.example.vitalsync.utils.CoberturaMedica;
 import lombok.Data;
@@ -16,4 +17,5 @@ public class PacienteResponseCompletoDTO {
     private byte[] foto;
     private List<Turno> turnos;
     private CoberturaMedica coberturaMedica;
+    private List <HistorialMedico> historialMedico;
 }

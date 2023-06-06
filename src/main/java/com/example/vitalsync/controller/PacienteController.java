@@ -1,9 +1,10 @@
 package com.example.vitalsync.controller;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
+import com.example.vitalsync.dto.request.historial.HistorialRequestDTO;
 import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
 import com.example.vitalsync.dto.request.paciente.PacienteUpdateRequestDTO;
 
+import com.example.vitalsync.dto.response.historial.HistorialResponseDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseCompletoDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
 import com.example.vitalsync.entity.HistorialMedico;
@@ -58,7 +59,7 @@ public class PacienteController {
     }
 
     @PutMapping("/editar/{Id}")
-    public ResponseEntity<?> modificarPaciente (@PathVariable Long Id,@RequestBody PacienteUpdateRequestDTO pacienteDTO) {
+    public ResponseEntity<?> modificarPaciente(@PathVariable Long Id, @RequestBody PacienteUpdateRequestDTO pacienteDTO) {
         PacienteResponseCompletoDTO result;
         try {
             result = pacienteService.editarPaciente(Id, pacienteDTO);
@@ -67,25 +68,27 @@ public class PacienteController {
         }
         return ResponseEntity.ok(result);
     }
+
     @PutMapping("/modificarEstado/{id}")
-    public ResponseEntity<?> modificarEstadoPaciente (@PathVariable Long id) {
+    public ResponseEntity<?> modificarEstadoPaciente(@PathVariable Long id) {
         try {
             pacienteService.cambiarEstadoPaciente(id);
             return ResponseEntity.ok("Estado de profesional cambiado exitosamente.");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?> eliminarPaciente (@PathVariable("id") Long id){
+    public ResponseEntity<?> eliminarPaciente(@PathVariable("id") Long id) {
         try {
             pacienteService.eliminarPaciente(id);
             return ResponseEntity.ok("Paciente eliminado exitosamente.");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
     @PostMapping("/reservar-turno")
     public ResponseEntity<String> reservarTurno(
             @RequestParam("id_medico") Long id_medico,
@@ -100,16 +103,25 @@ public class PacienteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al reservar turno");
         }
     }
+
     @GetMapping("/historial/{id}")
-    public ResponseEntity<List<HistorialMedico>> devolverHistorial (@PathVariable("id") Long Id){
+    public ResponseEntity<List<HistorialMedico>> devolverHistorial(@PathVariable("id") Long Id) {
         try {
-          List <HistorialMedico> result = pacienteService.retornarHistorialPorId(Id);
+            List<HistorialMedico> result = pacienteService.retornarHistorialPorId(Id);
 //            return ResponseEntity.ok("HistorialMedicoEnviado");
             return ResponseEntity.ok(result);
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
+  //  @PathVariable Long Id, @RequestBody PacienteUpdateRequestDTO pacienteDTO
+    @PutMapping("/agregarHistorial/{Id}")
+    public ResponseEntity<HistorialResponseDTO> agregarHistorial(@PathVariable Long Id, @RequestBody HistorialRequestDTO historialRequestDTO) throws Exception {
+
+            System.out.println(historialRequestDTO);
+            pacienteService.agregarAlHistorial(Id, historialRequestDTO);
+            return ResponseEntity.ok().build();
 
 
+    }
 }
