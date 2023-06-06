@@ -55,6 +55,9 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         usuarioDto.setEmail(usuario.getEmail());
         usuarioDto.setClave(usuario.getClave());
         Usuario usuarioGuardado = usuarioService.guardarUsuario(usuarioDto);
+        if(usuarioGuardado == null){
+            return null;
+        }
         usuarioGuardado.setRol(Rol.PROFESIONAL);
 
         Profesional profesional = new Profesional();
@@ -194,6 +197,18 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         List<Profesional> profesional = profesionalRepository.buscarPorEspecialidad(especialidad);
         //TODO Hacerlo con model mapper
         return profesional.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido())).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesOrdenadosPorPuntuacion() throws Exception {
+        List<Profesional> profesionales = profesionalRepository.ordenarDescPorPuntuacion();
+        return profesionales.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido())).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesOrdenadosPorHonorario() throws Exception {
+        List<Profesional> profesionales = profesionalRepository.ordenarAscPorHonorario();
+        return profesionales.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido())).collect(Collectors.toList());
     }
 
     public void eliminarProfesional(Long id) throws Exception {

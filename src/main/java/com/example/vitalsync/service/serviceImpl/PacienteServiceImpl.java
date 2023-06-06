@@ -59,6 +59,9 @@ public class PacienteServiceImpl implements PacienteService {
         usuarioDto.setEmail(usuario.getEmail());
         usuarioDto.setClave(usuario.getClave());
         Usuario usuarioGuardado = usuarioService.guardarUsuario(usuarioDto);
+        if(usuarioGuardado == null){
+            return null;
+        }
         usuarioGuardado.setRol(Rol.PACIENTE);
 
         Paciente paciente = new Paciente();
