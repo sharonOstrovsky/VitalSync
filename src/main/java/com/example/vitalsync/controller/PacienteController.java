@@ -6,6 +6,7 @@ import com.example.vitalsync.dto.request.paciente.PacienteUpdateRequestDTO;
 
 import com.example.vitalsync.dto.response.paciente.PacienteResponseCompletoDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
+import com.example.vitalsync.entity.HistorialMedico;
 import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.service.service.PacienteService;
 import lombok.AllArgsConstructor;
@@ -99,16 +100,16 @@ public class PacienteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al reservar turno");
         }
     }
-    @GetMapping("/historial")
-    public ResponseEntity<String> devolverHistorial (@PathVariable Long Id){
+    @GetMapping("/historial/{id}")
+    public ResponseEntity<List<HistorialMedico>> devolverHistorial (@PathVariable("id") Long Id){
         try {
-          pacienteService.retornarHistorialPorId(Id);
-            return ResponseEntity.ok("HistorialMedicoEnviado");
+          List <HistorialMedico> result = pacienteService.retornarHistorialPorId(Id);
+//            return ResponseEntity.ok("HistorialMedicoEnviado");
+            return ResponseEntity.ok(result);
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al enviar historial.");
+            return ResponseEntity.badRequest().build();
         }
     }
-
 
 
 }
