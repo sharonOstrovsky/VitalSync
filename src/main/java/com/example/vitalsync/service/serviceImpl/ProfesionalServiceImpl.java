@@ -196,19 +196,19 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesPorEspecialidad(String especialidad) throws Exception {
         List<Profesional> profesional = profesionalRepository.buscarPorEspecialidad(especialidad);
         //TODO Hacerlo con model mapper
-        return profesional.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido())).collect(Collectors.toList());
+        return profesional.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO( p.getId(), p.getNombre(), p.getApellido())).collect(Collectors.toList());
     }
 
     @Override
     public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesOrdenadosPorPuntuacion() throws Exception {
         List<Profesional> profesionales = profesionalRepository.ordenarDescPorPuntuacion();
-        return profesionales.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido())).collect(Collectors.toList());
+        return profesionales.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getId(), p.getNombre(), p.getApellido())).collect(Collectors.toList());
     }
 
     @Override
     public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesOrdenadosPorHonorario() throws Exception {
         List<Profesional> profesionales = profesionalRepository.ordenarAscPorHonorario();
-        return profesionales.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido())).collect(Collectors.toList());
+        return profesionales.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getId(), p.getNombre(), p.getApellido())).collect(Collectors.toList());
     }
 
     public void eliminarProfesional(Long id) throws Exception {

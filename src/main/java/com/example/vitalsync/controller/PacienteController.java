@@ -116,14 +116,16 @@ public class PacienteController {
             return ResponseEntity.badRequest().build();
         }
     }
-  //  @PathVariable Long Id, @RequestBody PacienteUpdateRequestDTO pacienteDTO
-    @PutMapping("/agregarHistorial/{Id}")
-    public ResponseEntity<HistorialResponseDTO> agregarHistorial(@PathVariable Long Id, @RequestBody HistorialRequestDTO historialRequestDTO) throws Exception {
 
-            System.out.println(historialRequestDTO);
+    @PostMapping("/agregarHistorial/{id}")
+    public ResponseEntity<HistorialResponseDTO> agregarHistorial(@PathVariable ("id") Long Id, @RequestBody HistorialRequestDTO historialRequestDTO) {
+        try {
             pacienteService.agregarAlHistorial(Id, historialRequestDTO);
-            return ResponseEntity.ok().build();
-
-
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok().build();
     }
+
+
 }
