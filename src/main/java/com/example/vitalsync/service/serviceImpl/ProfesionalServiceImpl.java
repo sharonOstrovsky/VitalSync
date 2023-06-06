@@ -193,6 +193,18 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         return profesional.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido())).collect(Collectors.toList());
     }
 
+    @Override
+    public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesOrdenadosPorPuntuacion() throws Exception {
+        List<Profesional> profesionales = profesionalRepository.ordenarDescPorPuntuacion();
+        return profesionales.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido())).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesOrdenadosPorHonorario() throws Exception {
+        List<Profesional> profesionales = profesionalRepository.ordenarAscPorHonorario();
+        return profesionales.stream().map(p -> new ProfesionalPorEspecialidadResponseDTO(p.getNombre(), p.getApellido())).collect(Collectors.toList());
+    }
+
     public void eliminarProfesional(Long id) throws Exception {
         Optional<Profesional> profesionalOptional = profesionalRepository.findById(id);
         if (profesionalOptional.isPresent()) {

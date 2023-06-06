@@ -97,6 +97,20 @@ public class ProfesionalController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/ordenarPuntuacion")
+    public ResponseEntity<List<ProfesionalPorEspecialidadResponseDTO>> ordenarPorPuntuacion()  throws Exception {
+        List<ProfesionalPorEspecialidadResponseDTO> result = profesionalService.obtenerProfesionalesOrdenadosPorPuntuacion();
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/ordenarHonorario")
+    public ResponseEntity<List<ProfesionalPorEspecialidadResponseDTO>> ordenarPorHonorario()  throws Exception {
+        List<ProfesionalPorEspecialidadResponseDTO> result = profesionalService.obtenerProfesionalesOrdenadosPorHonorario();
+
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/listar")
     public ResponseEntity<List<Profesional>> listarProfesionales() throws Exception {
         List<Profesional> result = profesionalService.listarProfesionales();

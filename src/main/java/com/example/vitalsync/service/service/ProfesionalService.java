@@ -16,6 +16,8 @@ public interface ProfesionalService {
     public void actualizarEstadoProfesional(Long id) throws Exception;
     public List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesPorEspecialidad(String especialidad) throws Exception;
 
+    List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesOrdenadosPorPuntuacion() throws Exception;
+    List<ProfesionalPorEspecialidadResponseDTO> obtenerProfesionalesOrdenadosPorHonorario() throws Exception;
     public void eliminarProfesional(Long id) throws Exception;
     public ProfesionalUpdateResponseDTO editarProfesional (Long id, ProfesionalUpdateRequestDTO profesional) throws Exception;
 

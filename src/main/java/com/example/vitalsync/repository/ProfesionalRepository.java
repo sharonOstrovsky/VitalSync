@@ -17,4 +17,10 @@ public interface ProfesionalRepository extends JpaRepository<Profesional,Long> {
     @Query("SELECT p FROM Profesional p INNER JOIN p.usuario u WHERE u.email = :email")
     Profesional findByUsuarioEmail(@Param("email") String email);
 
+    @Query(value = "SELECT p FROM Profesional p ORDER BY  puntuacion DESC")
+    List<Profesional> ordenarDescPorPuntuacion();
+
+    @Query(value = "SELECT p FROM Profesional p ORDER BY  honorario ASC")
+    List<Profesional> ordenarAscPorHonorario();
+
 }
