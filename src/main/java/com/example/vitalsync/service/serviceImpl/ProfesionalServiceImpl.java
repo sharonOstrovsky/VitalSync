@@ -56,6 +56,9 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         usuarioDto.setEmail(usuario.getEmail());
         usuarioDto.setClave(usuario.getClave());
         Usuario usuarioGuardado = usuarioService.guardarUsuario(usuarioDto);
+        if(usuarioGuardado == null){
+            return null;
+        }
         usuarioGuardado.setRol(Rol.PROFESIONAL);
 
         Profesional profesional = new Profesional();

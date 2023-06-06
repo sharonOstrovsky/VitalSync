@@ -29,9 +29,12 @@ public class ProfesionalController {
 
 
     @PostMapping("/crear")
-    public ResponseEntity<ProfesionalResponseDTO> create(@RequestBody ProfesionalRequestDTO profesional) throws Exception {
+    public ResponseEntity<?> create(@RequestBody ProfesionalRequestDTO profesional) throws Exception {
         System.out.println(profesional);
         ProfesionalResponseDTO result = profesionalService.guardarProfesional(profesional);
+        if(result == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario ya existente.");
+        }
         return ResponseEntity.ok(result);
     }
 

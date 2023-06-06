@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 //@AllArgsConstructor
@@ -54,6 +55,12 @@ public class UsuarioServiceImpl implements UserDetailsService {
 //    @Override
     public Usuario guardarUsuario(UsuarioLoginRequestDTO usuarioDto) throws Exception {
         Usuario usuario = modelMapper.map(usuarioDto,Usuario.class);
+
+        Usuario u = usuarioRepository.findByEmail(usuario.getEmail());
+
+        if(u != null){
+            return null;
+        }
 
         return usuarioRepository.save(usuario);
     }
