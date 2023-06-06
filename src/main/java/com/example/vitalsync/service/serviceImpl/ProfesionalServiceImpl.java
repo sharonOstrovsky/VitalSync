@@ -26,7 +26,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-
 public class ProfesionalServiceImpl implements ProfesionalService {
 
     private ProfesionalRepository profesionalRepository;
@@ -168,6 +167,13 @@ public class ProfesionalServiceImpl implements ProfesionalService {
     }
 
     @Override
+    public List<Turno> mostrarTurnosDisponible(Long id) throws Exception {
+        Profesional profesional = this.obtenerProfesionalPorId(id);
+        List<Turno> turnos = new ArrayList<>();
+        return profesional.getTurnos().stream().filter(Turno::getDisponible).collect(Collectors.toList());
+    }
+
+    @Override
     public Profesional obtenerProfesionalPorId(Long id) throws Exception {
 
         return profesionalRepository.findById(id).get();
@@ -216,5 +222,10 @@ public class ProfesionalServiceImpl implements ProfesionalService {
             throw new Exception("No se encontro ningun profesional con ese email");
         }
         return profesional;
+    }
+    @Override
+    public void actualizarProfesional(Long Id){
+        Optional<Profesional> profesional = profesionalRepository.findById(Id);
+        profesionalRepository.save(profesional.get());
     }
 }

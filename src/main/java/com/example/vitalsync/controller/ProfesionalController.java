@@ -154,4 +154,14 @@ public class ProfesionalController {
         }
     }
 
+    @GetMapping("/turnos-disponibles/{Id}")
+    public ResponseEntity<List<Turno>> verTurnosDisponibles(@PathVariable Long Id) {
+        try{
+            List <Turno> result = profesionalService.mostrarTurnosDisponible(Id);
+
+            return ResponseEntity.ok().body(result);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }

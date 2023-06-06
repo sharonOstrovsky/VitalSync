@@ -32,4 +32,7 @@ public interface ProfesionalService {
     ProfesionalPuntuacionResponseDTO obtenerPuntuacion(Long id)throws Exception;
 
     public List<Turno> mostrarTurnos(Long id) throws Exception;
+    public List<Turno> mostrarTurnosDisponible(Long id) throws Exception;
+
+    public void actualizarProfesional(Long idMedico);
 }

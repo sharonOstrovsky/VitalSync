@@ -5,10 +5,14 @@ import com.example.vitalsync.dto.request.paciente.PacienteUpdateRequestDTO;
 import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseCompletoDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
+import com.example.vitalsync.entity.HistorialMedico;
 import com.example.vitalsync.entity.Paciente;
+import com.example.vitalsync.entity.Turno;
 import com.example.vitalsync.entity.Usuario;
 import com.example.vitalsync.repository.PacienteRepository;
 import com.example.vitalsync.service.service.PacienteService;
+import com.example.vitalsync.service.service.ProfesionalService;
+import com.example.vitalsync.service.service.TurnoService;
 import com.example.vitalsync.utils.Rol;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -26,7 +30,8 @@ public class PacienteServiceImpl implements PacienteService {
     private PacienteRepository pacienteRepository;
     private UsuarioServiceImpl usuarioService;
     private PasswordEncoder passwordEncoder;
-    private ProfesionalServiceImpl profesionalService;
+    private ProfesionalService profesionalService;
+    private TurnoService turnoService;
 
     //TODO Moddel mapper no va acá
     private final ModelMapper modelMapper = new ModelMapper();
@@ -62,6 +67,10 @@ public class PacienteServiceImpl implements PacienteService {
         return modelMapper.map(paciente, PacienteResponseDTO.class);
     }
 
+    @Override
+    public Paciente actualizarPaciente(Paciente paciente) throws Exception {
+        return pacienteRepository.save(paciente);
+    }
     @Override
     public PacienteResponseDTO obtenerPacientePorId(Long id) throws Exception {
 
@@ -102,10 +111,32 @@ public class PacienteServiceImpl implements PacienteService {
         }
         return paciente;
     }
+//TODO mover a service turno
+    @Override
+    public List<Turno> verTurnoProfesional(Long id) throws Exception {
 
-//    @Override
-//    public void reservarTurno(Long id) throws Exception {
-//        List<Turno> turnos = profesionalService.mostrarTurnos(id);
-//        turnos.get(id).setDisponible(false);
-//    }
+        return profesionalService.mostrarTurnosDisponible(id);
+    }
+
+    @Override
+    public void reservarTurno (Long id_medico, Long id_turno, Long id_paciente) throws Exception {
+
+        List <Turno> turnos = this.verTurnoProfesional(id_medico);
+        Optional<Turno> turnoReservado = turnos.stream()
+                .filter(turno -> turno.getId_turno().equals(id_turno))
+                .findFirst();
+        turnoReservado.get().setDisponible(false);
+        turnoService.guardarTurnos(turnos);
+        profesionalService.actualizarProfesional(id_medico);
+        Optional<Paciente> paciente = pacienteRepository.findById(id_paciente);
+        paciente.get().getTurnos().add(turnoReservado.get());
+        this.actualizarPaciente(paciente.get());
+    }
+
+    @Override
+    public List <HistorialMedico> retornarHistorialPorId (Long Id) throws Exception {
+        Optional<Paciente> paciente = pacienteRepository.findById(Id);
+        List<HistorialMedico> historialMedico = paciente.get().getHistorialMedico();
+        return historialMedico;
+    }
 }
