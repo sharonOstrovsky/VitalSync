@@ -29,9 +29,12 @@ public class ProfesionalController {
 
 
     @PostMapping("/crear")
-    public ResponseEntity<ProfesionalResponseDTO> create(@RequestBody ProfesionalRequestDTO profesional) throws Exception {
+    public ResponseEntity<?> create(@RequestBody ProfesionalRequestDTO profesional) throws Exception {
         System.out.println(profesional);
         ProfesionalResponseDTO result = profesionalService.guardarProfesional(profesional);
+        if(result == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario ya existente.");
+        }
         return ResponseEntity.ok(result);
     }
 
@@ -90,6 +93,20 @@ public class ProfesionalController {
     @GetMapping("/especialidad")
     public ResponseEntity<List<ProfesionalPorEspecialidadResponseDTO>> encontrarPorProfesional(@RequestParam(value = "especialidad", required = false) String especialidad) throws Exception {
         List<ProfesionalPorEspecialidadResponseDTO> result = profesionalService.obtenerProfesionalesPorEspecialidad(especialidad);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/ordenarPuntuacion")
+    public ResponseEntity<List<ProfesionalPorEspecialidadResponseDTO>> ordenarPorPuntuacion()  throws Exception {
+        List<ProfesionalPorEspecialidadResponseDTO> result = profesionalService.obtenerProfesionalesOrdenadosPorPuntuacion();
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/ordenarHonorario")
+    public ResponseEntity<List<ProfesionalPorEspecialidadResponseDTO>> ordenarPorHonorario()  throws Exception {
+        List<ProfesionalPorEspecialidadResponseDTO> result = profesionalService.obtenerProfesionalesOrdenadosPorHonorario();
 
         return ResponseEntity.ok(result);
     }

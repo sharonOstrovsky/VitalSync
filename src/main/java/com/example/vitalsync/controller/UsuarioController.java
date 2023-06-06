@@ -22,6 +22,9 @@ public class UsuarioController {
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody UsuarioLoginRequestDTO usuario) throws Exception {
         Usuario result = usuarioService.guardarUsuario(usuario);
+        if(result == null){
+            return ResponseEntity.status(HttpStatus.CREATED).body("Usuario ya existente.");
+        }
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado exitosamente.");
     }

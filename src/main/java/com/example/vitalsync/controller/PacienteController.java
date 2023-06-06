@@ -33,9 +33,11 @@ public class PacienteController {
 
 
     @PostMapping("/crear")
-    public ResponseEntity<PacienteResponseDTO> create(@RequestBody PacienteRequestDTO paciente) throws Exception {
+    public ResponseEntity<?> create(@RequestBody PacienteRequestDTO paciente) throws Exception {
         PacienteResponseDTO result = pacienteService.guardarPaciente(paciente);
-
+        if(result == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario ya existente.");
+        }
         return ResponseEntity.ok(result);
     }
 
