@@ -34,4 +34,5 @@ public interface PacienteService {
     public Paciente actualizarPaciente(Paciente paciente) throws Exception;
     public List<HistorialMedico> retornarHistorialPorId(Long Id) throws Exception;
     public void agregarAlHistorial(Long id, HistorialRequestDTO historial) throws Exception;
+    public List<Turno> listarTurnosPorId (Long id) throws Exception;
 }

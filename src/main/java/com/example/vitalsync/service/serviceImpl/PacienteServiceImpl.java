@@ -157,4 +157,11 @@ public class PacienteServiceImpl implements PacienteService {
         paciente.get().getHistorialMedico().add(result);
         this.actualizarPaciente(paciente.get());
     }
+
+
+    @Override
+    public List<Turno> listarTurnosPorId (Long id) throws Exception {
+        Optional<Paciente> paciente = pacienteRepository.findById(id);
+        return paciente.get().getTurnos();
+    }
 }

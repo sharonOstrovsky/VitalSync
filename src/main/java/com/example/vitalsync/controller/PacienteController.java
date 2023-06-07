@@ -9,12 +9,14 @@ import com.example.vitalsync.dto.response.paciente.PacienteResponseCompletoDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
 import com.example.vitalsync.entity.HistorialMedico;
 import com.example.vitalsync.entity.Paciente;
+import com.example.vitalsync.entity.Turno;
 import com.example.vitalsync.service.service.PacienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -127,5 +129,14 @@ public class PacienteController {
         return ResponseEntity.ok().build();
     }
 
-
+    @GetMapping("/turnosPacienteId/{Id}")
+    public ResponseEntity<List<Turno>> turnosIdPaciente(@PathVariable("Id") Long id){
+        List <Turno> result;
+        try {
+            result = pacienteService.listarTurnosPorId(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok(result);
+    }
 }

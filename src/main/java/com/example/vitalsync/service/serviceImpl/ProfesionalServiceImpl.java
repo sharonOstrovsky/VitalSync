@@ -243,4 +243,6 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         Optional<Profesional> profesional = profesionalRepository.findById(Id);
         profesionalRepository.save(profesional.get());
     }
+
+
 }

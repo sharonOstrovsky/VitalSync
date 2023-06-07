@@ -181,4 +181,5 @@ public class ProfesionalController {
             throw new RuntimeException(e);
         }
     }
+
 }
