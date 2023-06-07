@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 public class PacienteUpdateRequestDTO {
     private String nombre;
     private String apellido;
+//    private Boolean estado;
     private String telefono;
     private int edad;
     private String foto;

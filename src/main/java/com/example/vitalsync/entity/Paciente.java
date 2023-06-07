@@ -14,15 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "Paciente")
 public class Paciente extends Persona {
-    private int edad;
-    private String foto;
-    @OneToMany
-    private List<Turno> turnos;
+    private Integer edad;
+    @Lob
+    private byte[] foto;
     @Enumerated (EnumType.STRING)
     private CoberturaMedica coberturaMedica;
-    @OneToOne
+    @OneToMany
+    private List<HistorialMedico> historialMedico;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     protected Usuario usuario;
-
-
-
+    private Boolean estado;
+    @OneToMany
+    private List<Turno> turnos;
 }

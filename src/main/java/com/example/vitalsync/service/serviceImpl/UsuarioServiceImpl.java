@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 //@AllArgsConstructor
@@ -36,14 +37,15 @@ public class UsuarioServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByEmail(email);
-        System.out.println(usuario + "!");
+        System.out.println(usuario + "!!!!!");
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuario no encontrado: " + usuario);
         }
         List<GrantedAuthority> permissions = new ArrayList<>();
-        GrantedAuthority p = new SimpleGrantedAuthority( usuario.getRol().toString());
+        GrantedAuthority p = new SimpleGrantedAuthority(usuario.getRol().toString());
         permissions.add(p);
         User u = new User(usuario.getEmail(), usuario.getClave(), permissions);
+
         System.out.println(u);
         return u;
     }
@@ -53,6 +55,12 @@ public class UsuarioServiceImpl implements UserDetailsService {
 //    @Override
     public Usuario guardarUsuario(UsuarioLoginRequestDTO usuarioDto) throws Exception {
         Usuario usuario = modelMapper.map(usuarioDto,Usuario.class);
+
+        Usuario u = usuarioRepository.findByEmail(usuario.getEmail());
+
+        if(u != null){
+            return null;
+        }
 
         return usuarioRepository.save(usuario);
     }

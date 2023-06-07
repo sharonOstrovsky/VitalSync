@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/vitalsync/admin")
 @CrossOrigin
-@AllArgsConstructor
 public class AdminController {
 
     private AdminService adminService;
+
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     @PostMapping("/crear")
     public ResponseEntity<String> crearAdmin (@RequestBody AdminRequestDTO admin){

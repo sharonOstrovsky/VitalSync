@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Dia")
@@ -19,6 +20,6 @@ public class Dia {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_dia;
     private String dia;
-    private Float horaEntrada;
-    private Float horaSalida;
+    private LocalDate horaEntrada;
+    private LocalDate horaSalida;
 }

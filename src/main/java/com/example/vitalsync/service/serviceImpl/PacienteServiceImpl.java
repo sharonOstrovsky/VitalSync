@@ -1,7 +1,9 @@
 package com.example.vitalsync.service.serviceImpl;
 
-import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import com.example.vitalsync.dto.request.paciente.PacienteRequestDTO;
+import com.example.vitalsync.dto.request.paciente.PacienteUpdateRequestDTO;
+import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
+import com.example.vitalsync.dto.response.paciente.PacienteResponseCompletoDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
 import com.example.vitalsync.entity.Paciente;
 import com.example.vitalsync.entity.Usuario;
@@ -15,13 +17,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class PacienteServiceImpl implements PacienteService {
-    private  PacienteRepository pacienteRepository;
+    private PacienteRepository pacienteRepository;
     private UsuarioServiceImpl usuarioService;
     private PasswordEncoder passwordEncoder;
+    private ProfesionalServiceImpl profesionalService;
 
     //TODO Moddel mapper no va acá
     private final ModelMapper modelMapper = new ModelMapper();
@@ -30,9 +35,11 @@ public class PacienteServiceImpl implements PacienteService {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
     @Override
-    public List<Paciente> listarPacientes() throws Exception {
-        return pacienteRepository.findAll();
+    public List<PacienteResponseCompletoDTO> listarPacientes() {
+        List<Paciente> result = pacienteRepository.findAll();
+        return result.stream().map(r -> modelMapper.map(r, PacienteResponseCompletoDTO.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -42,12 +49,16 @@ public class PacienteServiceImpl implements PacienteService {
         UsuarioLoginRequestDTO usuarioDto = new UsuarioLoginRequestDTO();
         usuarioDto.setEmail(usuario.getEmail());
         usuarioDto.setClave(usuario.getClave());
-        Usuario usuarioGuardado= usuarioService.guardarUsuario(usuarioDto);
+        Usuario usuarioGuardado = usuarioService.guardarUsuario(usuarioDto);
+        if(usuarioGuardado == null){
+            return null;
+        }
         usuarioGuardado.setRol(Rol.PACIENTE);
 
         Paciente paciente = new Paciente();
         paciente.setNombre(pacienteDto.getNombre());
         paciente.setApellido(pacienteDto.getApellido());
+        paciente.setEstado(true);
         paciente.setUsuario(usuarioGuardado);
         pacienteRepository.save(paciente);
 
@@ -55,17 +66,49 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public Paciente obtenerPacientePorId(Long id) throws Exception {
-        return pacienteRepository.findById(id).get();
+    public PacienteResponseDTO obtenerPacientePorId(Long id) throws Exception {
+
+        return modelMapper.map(pacienteRepository.findById(id).orElseThrow(() -> new Exception("Paciente no encontrado")), PacienteResponseDTO.class);
     }
 
+    public PacienteResponseCompletoDTO editarPaciente(Long id, PacienteUpdateRequestDTO paciente) throws Exception {
+        Paciente pacienteGuardado = pacienteRepository.findById(id).orElseThrow(() -> new Exception("No se encontró el paciente con el ID: " + id));
+        modelMapper.map(paciente, pacienteGuardado);
+        pacienteRepository.save(pacienteGuardado);
+
+        return modelMapper.map(pacienteGuardado, PacienteResponseCompletoDTO.class);
+    }
+
+
     @Override
-    public Paciente actualizarPersonal(Paciente paciente) throws Exception {
-        return pacienteRepository.save(paciente);
+    public void cambiarEstadoPaciente(Long id) throws Exception {
+        Paciente paciente = pacienteRepository.findById(id).orElseThrow(() -> new Exception("No se encontró ningún paciente con el ID especificado."));
+        paciente.setEstado(!paciente.getEstado());
+        pacienteRepository.save(paciente);
     }
 
     @Override
     public void eliminarPaciente(Long id) throws Exception {
-        pacienteRepository.deleteById(id);
+        Optional<Paciente> pacienteOptional = pacienteRepository.findById(id);
+        if (pacienteOptional.isPresent()) {
+            pacienteRepository.delete(pacienteOptional.get());
+        } else {
+            throw new Exception("No se encontró ningún paciente con el ID especificado.");
+        }
     }
+
+    @Override
+    public Paciente traerPacientePorUsuario(String email) throws Exception {
+        Paciente paciente = pacienteRepository.findByUsuarioEmail(email);
+        if (paciente == null) {
+            throw new Exception("No se encontro ningun paciente con ese email");
+        }
+        return paciente;
+    }
+
+//    @Override
+//    public void reservarTurno(Long id) throws Exception {
+//        List<Turno> turnos = profesionalService.mostrarTurnos(id);
+//        turnos.get(id).setDisponible(false);
+//    }
 }

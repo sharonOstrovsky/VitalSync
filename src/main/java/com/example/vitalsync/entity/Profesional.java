@@ -15,21 +15,26 @@ import java.util.List;
 @Table(name = "Profesional")
 public class Profesional extends Persona{
     private String especialidad;
-    private boolean estado;
+    private Boolean estado;
     private String matricula;
-    private boolean telemedicina;
-    private boolean presencial;
+    private Boolean telemedicina;
+    private Boolean presencial;
+    @ElementCollection
+    private List<Integer> puntuacionList;
     private Integer puntuacion;
     @ElementCollection
-    private List<String> comentarios;
+    private List<String> comentarios = new ArrayList<>();
     @ElementCollection
     @CollectionTable(name = "Persona_CoberturaMedica", joinColumns = @JoinColumn(name = "persona_id"))
     @Column(name = "coberturaMedica")
     private List <CoberturaMedica> coberturaMedicaList;
     private String ubicacion;
     private String honorario;
-    @ManyToMany
-    private List<Dia> diasTrabajo;
-    @OneToOne //(cascade =CascadeType.ALL)
+    @OneToMany
+    private List <Turno> turnos = new ArrayList<>();
+//    @ManyToMany
+//    private List<Dia> diasTrabajo;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     protected Usuario usuario;
+    private String foto;
 }
