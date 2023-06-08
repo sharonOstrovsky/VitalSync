@@ -182,4 +182,14 @@ public class ProfesionalController {
         }
     }
 
+    @GetMapping("/listar-turnos-tomados/{Id}")
+    public ResponseEntity<List<Turno>> verTurnosTomados(@PathVariable Long Id) {
+        try{
+            List <Turno> result = profesionalService.mostrarTurnosReservados(Id);
+
+            return ResponseEntity.ok().body(result);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }

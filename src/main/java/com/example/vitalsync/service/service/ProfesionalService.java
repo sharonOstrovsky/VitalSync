@@ -35,6 +35,6 @@ public interface ProfesionalService {
 
     public List<Turno> mostrarTurnos(Long id) throws Exception;
     public List<Turno> mostrarTurnosDisponible(Long id) throws Exception;
-
     public void actualizarProfesional(Long idMedico);
+    public List<Turno> mostrarTurnosReservados(Long id);
 }

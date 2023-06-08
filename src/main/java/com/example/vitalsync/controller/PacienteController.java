@@ -83,6 +83,7 @@ public class PacienteController {
         }
     }
 
+
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminarPaciente(@PathVariable("id") Long id) {
         try {
@@ -105,6 +106,15 @@ public class PacienteController {
         } catch (Exception e) {
             // Manejar el error adecuadamente y devolver una respuesta de error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al reservar turno");
+        }
+    }
+    @PutMapping("/cancelar-turno/{id}")
+    public ResponseEntity<?> cancelarTurno (@PathVariable Long id){
+        try {
+            pacienteService.cancelarTurno(id);
+            return ResponseEntity.ok("Turno cancelado exitosamente.");
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

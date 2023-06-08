@@ -244,5 +244,12 @@ public class ProfesionalServiceImpl implements ProfesionalService {
         profesionalRepository.save(profesional.get());
     }
 
+    @Override
+    public List<Turno> mostrarTurnosReservados(Long id) {
+        Optional<Profesional> result = profesionalRepository.findById(id);
+        return result.get().getTurnos().stream()
+                .filter(turno -> !turno.getDisponible())
+                .collect(Collectors.toList());
+    }
 
 }

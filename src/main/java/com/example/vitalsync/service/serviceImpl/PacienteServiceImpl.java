@@ -6,10 +6,7 @@ import com.example.vitalsync.dto.request.paciente.PacienteUpdateRequestDTO;
 import com.example.vitalsync.dto.request.usuario.UsuarioLoginRequestDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseCompletoDTO;
 import com.example.vitalsync.dto.response.paciente.PacienteResponseDTO;
-import com.example.vitalsync.entity.HistorialMedico;
-import com.example.vitalsync.entity.Paciente;
-import com.example.vitalsync.entity.Turno;
-import com.example.vitalsync.entity.Usuario;
+import com.example.vitalsync.entity.*;
 import com.example.vitalsync.repository.PacienteRepository;
 import com.example.vitalsync.service.service.HistorialMedicoService;
 import com.example.vitalsync.service.service.PacienteService;
@@ -142,6 +139,24 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
+    public void cancelarTurno(Long id_turno) throws Exception {
+
+        Optional <Turno> turnoCancelado = turnoService.buscarTurnoPorId(id_turno);
+        Optional <Paciente> paciente = pacienteRepository.findById(turnoCancelado.get().getId_paciente());
+
+        if (turnoCancelado.isPresent()) {
+            turnoCancelado.get().setDisponible(true);
+            if (paciente.isPresent()) {
+                paciente.get().getTurnos().remove(turnoCancelado.get());
+                this.actualizarPaciente(paciente.get());
+            }
+            turnoCancelado.get().setId_paciente(null);
+            turnoService.guardarTurno(turnoCancelado.get());
+            this.actualizarPaciente(paciente.get());
+        }
+    }
+
+    @Override
     public List <HistorialMedico> retornarHistorialPorId (Long Id) throws Exception {
         Optional<Paciente> paciente = pacienteRepository.findById(Id);
         List<HistorialMedico> historialMedico = paciente.get().getHistorialMedico();
@@ -157,7 +172,6 @@ public class PacienteServiceImpl implements PacienteService {
         paciente.get().getHistorialMedico().add(result);
         this.actualizarPaciente(paciente.get());
     }
-
 
     @Override
     public List<Turno> listarTurnosPorId (Long id) throws Exception {
